@@ -1,0 +1,98 @@
+<?xml version= "1.0 "?>
+<!--
+
+    gvSIG. Desktop Geographic Information System.
+
+    Copyright (C) 2007-2013 gvSIG Association.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 3
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+    MA  02110-1301, USA.
+
+    For any additional information, do not hesitate to contact us
+    at info AT gvsig.com, or visit our website www.gvsig.com.
+
+-->
+<definitions>
+    <version>1.0.0</version>
+    <classes>
+        <class name="SHPStoreParameters">
+            <extends>
+                <class namespace="dal" name="ProviderParameters" />
+                <class name="DBFStoreParameters" />
+            </extends>
+            <tags>
+                <value name="defaultGroup" value="Basic"/>
+            </tags>
+            <description>Store the parameters need to open a shp file
+            </description>
+            <fields>
+                <field name="shpFile" type="file" mandatory="true" group="Basic">
+                    <description>The shp file associated to this shape file
+                    </description>
+                </field>
+                <field name="CRS" type="crs" mandatory="true" group="Basic">
+                    <description>The coordinate reference system used in this shape
+                        file</description>
+                </field>
+
+
+                <field order="5" name="dbfFile" type="file" mandatory="false" group="Advanced">
+                    <description>dbf file</description>
+                </field>
+                <field order="6" name="shxFile" type="file" mandatory="false" group="Advanced">
+                    <description>The shx file associated to this shape file
+                    </description>
+                </field>
+
+                <field order="200" name="useNullGeometry" label="Use NullGeometry instead of null" type="boolean" group="Advanced" hidden="true" mandatory="false" defaultValue="false">
+                    <description>If set, use NullGeometry object instead a null value</description>
+                </field>
+                <field order="210" name="allowInconsistenciesInGeometryType" label="Allow inconsistencies in geometry type" type="boolean" mandatory="false" group="Advanced" defaultValue="false">
+                    <description>If set, attempts to load the geometry but does not match the type of shape file. The layer will be read only.</description>
+                </field>
+                <field order="220" name="loadCorruptGeometriesAsNull" label="Load corrupt geometries as null" type="boolean" mandatory="false" group="Advanced" defaultValue="false">
+                    <description>If set, load geometries that have inconsistencies as null and not fails. The layer will be read only.</description>
+                </field>
+                <field order="230" name="fixLinearRings" label="Fix LinearRings and LineString" type="boolean" mandatory="false" group="Advanced" defaultValue="false">
+                    <description>If set, fix LinearRings to minimum four vertices and fix LineStrings to minimum two vertices duplicating last vertex. The layer will be read only.</description>
+                </field>
+            </fields>
+        </class>
+
+        <class name="SHPNewStoreParameters">
+            <description>Store the parameters need to create a shape file
+            </description>
+            <extends>
+                <class>SHPStoreParameters</class>
+                <class>DBFNewStoreParameters</class>
+            </extends>
+            <fields>
+                <field name="geometryType" type="integer" mandatory="true" group="Basic">
+                    <description>Geometry type use Geometry.TYPES</description>
+                    <availableValues>
+                        <value label="POINT">1</value>
+                        <value label="CURVE">2</value>
+                        <value label="SURFACE">3</value>
+                        <value label="MULTIPOINT">7</value>
+                        <value label="MULTICURVE">8</value>
+                        <value label="MULTISURFACE">9</value>
+                        <value label="MULTILINE">21</value>
+                    </availableValues>
+                </field>
+            </fields>
+        </class>
+
+    </classes>
+</definitions>
