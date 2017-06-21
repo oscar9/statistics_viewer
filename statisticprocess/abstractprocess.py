@@ -9,12 +9,20 @@ from org.gvsig.fmap.dal.resource.file import FileResourceParameters
 import os
 import com.jeta.forms.components.panel as jfc
 
+        
 class AbstractStatisticProcess():
     # el metodo process actualizara la nueva grafica
     dynform = None
     dynclass = None
     outputpanel = None
     outputchart = None
+
+    createdchart = None
+    console = ""
+    
+    def __init__(self):
+        self.dynform = self.setParameters()
+        
     def importDynPanel(self, dynobjectxml):
         if dynobjectxml==None:
             print "dynobjectxml is None"
@@ -29,18 +37,20 @@ class AbstractStatisticProcess():
         
         loader = None
         try:
-          print "dentro try"
-          self.dynclass = DefaultDynObjectManager().importDynClassDefinitions(resource, loader)["SHPStoreParameters"]#InputStream resource, ClassLoader loader)
-          print "dynclass: ", self.dynclass.__class__.__name__
+          self.dynclass = DefaultDynObjectManager().importDynClassDefinitions(resource, loader)["SHPStoreParameters"]
           self.dynform = DefaultDynFormManager().createJDynForm(self.dynclass) #i:dynobject,dynstruct o:jdynform
-          print "dynform: ", 1 #self.dynform
         except Exception,e:
-          print e
-          print "except:", FileInputStream(dynobjectxml)
           self.dynform = jfc.FormPanel(FileInputStream(dynobjectxml))
         finally:
           return self.dynform
-
+          
+    def createNewParameters(self):
+        params = self.getDynClass()
+        return params
+        
+    def getDescription(self):
+        return self.description
+        
     def update(self, viewer):
         c = self.process(viewer)
         self.outputpanel = c.getChartPanel()
@@ -68,8 +78,12 @@ class AbstractStatisticProcess():
         return self.dynform
         
 def main(*args):
-    ab = AbstractStatisticProcess()
-    print ab.getDynForm()
-    dynobjectxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+    #ab = AbstractStatisticProcess()
+    #print ab.getDynForm()
+    #dynobjectxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+    #print ab.importDynPanel(dynobjectxml)
+    p = stat1.StatProcess()
+    print p.getDescription()
+    print p.getDynForm()
+
     
-    print ab.importDynPanel(dynobjectxml)

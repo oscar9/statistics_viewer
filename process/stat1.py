@@ -1,34 +1,34 @@
 # encoding: utf-8
 
 import gvsig
+
 import addons.statistics_viewer.statisticprocess
 reload(addons.statistics_viewer.statisticprocess)
-import addons.statistics_viewer.sv
-reload(addons.statistics_viewer.sv)
 
-import addons.statistics_viewer.statisticprocess.abstractprocess
-reload(addons.statistics_viewer.statisticprocess.abstractprocess)
+#import addons.statistics_viewer.sv
+#reload(addons.statistics_viewer.sv)
+
+#import addons.statistics_viewer.process
+#reload(addons.statistics_viewer.process)
 
 from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractStatisticProcess
+
 import os
 from addons.statistics_viewer.sv import svgraph
+
 
 class StatProcess(AbstractStatisticProcess):
 
     name = "Proceso Estadistica 1"
     description = "Calculo de edad"
-    dynform = None
-    createdchart = None
-
-    console = ""
+    
     def __init__(self):
-        dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
-        #dynxml = os.path.join(os.path.dirname(__file__), "stat1.xml")
-        self.dynform = self.importDynPanel(dynxml)
-        #self.process()
+        AbstractStatisticProcess.__init__(self)
         
-    def getDescription(self):
-        return self.description
+    def setParameters(self):
+        dyn = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+        dynform = self.importDynPanel(dyn) # TODO: tb establece el dynclass en el abstract
+        return dynform
         
     def process(self, viewer):
         # generate barchart plot
@@ -65,6 +65,11 @@ def main(*args):
     import os
     
     proc =  StatProcess()
-    print proc.getProcessName()
-    print proc.getInputPanel()
-    print proc.getOutputPanel()
+    print proc.setParameters()
+    new = proc.createNewParameters()
+    print "NEW: ", new
+    print "Name: ", proc.getProcessName()
+    print "Input panel: ", proc.getInputPanel()
+    print "DynForm: ", proc.getDynForm()
+    #print proc.process()
+    print "Outputpanel: ", proc.getOutputPanel()
