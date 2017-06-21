@@ -5,7 +5,8 @@ import addons.statistics_viewer
 reload(addons.statistics_viewer)
 import addons.statistics_viewer.process
 reload(addons.statistics_viewer.process)
-from addons.statistics_viewer.process import stat1, stat2
+
+from addons.statistics_viewer.process import stat1
 
 class StatisticsProcessManager():
     processes = []

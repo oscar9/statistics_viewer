@@ -26,8 +26,22 @@ class StatProcess(AbstractStatisticProcess):
         
         
     def processParameters(self): #o: dynclass
-        dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
-        dynclass = self.createDynClass(dynxml)
+        #dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+        #dynclass = self.createDynClass(dynxml)
+        
+        manager = self.getToolsLocator().getDynObjectManager()
+        #mydata = manager.createDynObject("MyStruct")
+        
+        dynclass = manager.get("Process","ProcessProperties")
+        if dynclass == None: 
+          dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripción")
+          dynclass.addDynFieldString("name").setMandatory(False)
+          dynclass.addDynFieldString("title").setMandatory(True)
+          dynclass.addDynFieldString("type").setMandatory(True)
+          
+          #definition.addDynFieldObject("service").setClassOfValue(ChartService.class)
+          manager.add(dynclass)
+          
         return dynclass
         
     def process(self, parameters):
@@ -68,18 +82,8 @@ def main(*args):
     
     dynfields = dynobject.getDynClass().getDynFields()
 
-    print type(dynfields)
-    dynobject.setDynValue("shxFile", "/home/j.shpo")
-    
+    #dynobject.setDynValue("shxFile", "/home/j.shpo")
+
     for f in dynfields:
         print f.getName(),dynobject.getDynValue(f.getName()) 
-    """
-shxFile
-allowInconsistenciesInGeometryType
-dbfFile
-CRS
-useNullGeometry
-shpFile
-loadCorruptGeometriesAsNull
-"""
     return

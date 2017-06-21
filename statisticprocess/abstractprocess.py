@@ -8,7 +8,7 @@ from org.gvsig.fmap.dal.resource.file import FileResource
 from org.gvsig.fmap.dal.resource.file import FileResourceParameters
 import os
 import com.jeta.forms.components.panel as jfc
-
+from org.gvsig.tools import ToolsLocator
         
 class AbstractStatisticProcess():
     # el metodo process actualizara la nueva grafica
@@ -30,6 +30,8 @@ class AbstractStatisticProcess():
         self.dynobject = DefaultDynObjectManager().createDynObject(self.dynclass)
         return self.dynobject
         
+    def getToolsLocator(self):
+        return ToolsLocator
         
     def createDynClass(self, dynobjectxml):
         if dynobjectxml==None:

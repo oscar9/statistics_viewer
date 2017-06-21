@@ -5,6 +5,7 @@ from gvsig.libs.formpanel import FormPanel
 import os
 import addons.statistics_viewer.process.processmanager
 reload(addons.statistics_viewer.process.processmanager)
+
 from addons.statistics_viewer.process.processmanager import StatisticsProcessManager
 from java.awt import BorderLayout
 from org.gvsig.fmap.mapcontext.events.listeners import ViewPortListener
@@ -55,6 +56,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.jpOutput.removeAll()
         self.jpInput.setLayout(BorderLayout())
         inputpanel = actualprocess.getInputPanel()
+        print "inputpanel.asJComponent: ", inputpanel.asJComponent()
         self.jpInput.add(inputpanel.asJComponent(),BorderLayout.CENTER)
         self.jpInput.validate()
         
@@ -64,14 +66,19 @@ class StatisticsViewer(ViewPortListener,FormPanel):
     def btnGetParameters_click(self, *args):
         #print self.jpInput, type(self.jpInput), dir(self.jpInput)
         #print self.jpInput.getComponents()[0]
-        proc = self.getProcessManager().getActiveProcess()
-        dynobject = proc.createParameters()
-        dynclass = dynobject.getDynClass()
+        #proc = self.getProcessManager().getActiveProcess()
+        #dynobject = proc.createParameters()
+        #dynclass = dynobject.getDynClass()
         
-        dynfields = dynobject.getDynClass().getDynFields()
+        #dynfields = dynobject.getDynClass().getDynFields()
 
-        for f in dynfields:
-            print f.getName(),dynobject.getDynValue(f.getName()) 
+        #for f in dynfields:
+        #    #print f.getName(), dynobject.getDynValue(f.getName()) 
+        #    pass
+        print self.jpInput.getComponent(0).getComponentCount()
+        print type(self.jpInput)
+        for i in range(0,2):
+            print "jinput 1: ", self.jpInput.getComponent(0).getComponent(0).getComponent(i)
         
     def btnInfo_click(self, *args):
         actualprocess = self.getProcessManager().getActiveProcess()
