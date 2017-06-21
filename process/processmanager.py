@@ -3,6 +3,7 @@
 import gvsig
 import addons.statistics_viewer
 reload(addons.statistics_viewer)
+
 import addons.statistics_viewer.process
 reload(addons.statistics_viewer.process)
 
@@ -19,11 +20,10 @@ class StatisticsProcessManager():
         
     def getActiveProcess(self):
         return self.active
-
+        
     def setActiveProcess(self, process):
         self.active = process()
         
-
         
         
 def main(*args):

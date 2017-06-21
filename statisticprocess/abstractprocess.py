@@ -62,8 +62,8 @@ class AbstractStatisticProcess():
     def getDescription(self):
         return self.description
         
-    def update(self, viewer):
-        c = self.process(viewer)
+    def update(self, params):
+        c = self.process(params)
         self.outputpanel = c.getChartPanel()
         self.outputchart = c.getChart()
     

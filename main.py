@@ -13,6 +13,7 @@ from org.gvsig.fmap.mapcontext.events.listeners import ViewPortListener
 class StatisticsViewer(ViewPortListener,FormPanel):
     mapContext = None
     spm = None #Statistics Process Manager
+    inputpanel = None
     def __init__(self):
         FormPanel.__init__(self, os.path.join(os.path.dirname(__file__), "statistics_viewer.xml"))
         icon = self.load_icon(os.path.join(os.path.dirname(__file__), "info.ico"))
@@ -52,33 +53,17 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.setSelectedProcess()
         # INPUT
         actualprocess = self.getProcessManager().getActiveProcess()
+        
         self.jpInput.removeAll()
         self.jpOutput.removeAll()
         self.jpInput.setLayout(BorderLayout())
-        inputpanel = actualprocess.getInputPanel()
-        print "inputpanel.asJComponent: ", inputpanel.asJComponent()
-        self.jpInput.add(inputpanel.asJComponent(),BorderLayout.CENTER)
+        self.inputpanel = actualprocess.getInputPanel()
+        self.jpInput.add(self.inputpanel.asJComponent(),BorderLayout.CENTER)
         self.jpInput.validate()
         
         ### TODO: eliminar 
         #self.btnProcess_click()
-        
-    def btnGetParameters_click(self, *args):
-        #print self.jpInput, type(self.jpInput), dir(self.jpInput)
-        #print self.jpInput.getComponents()[0]
-        #proc = self.getProcessManager().getActiveProcess()
-        #dynobject = proc.createParameters()
-        #dynclass = dynobject.getDynClass()
-        
-        #dynfields = dynobject.getDynClass().getDynFields()
-
-        #for f in dynfields:
-        #    #print f.getName(), dynobject.getDynValue(f.getName()) 
-        #    pass
-        print self.jpInput.getComponent(0).getComponentCount()
-        print type(self.jpInput)
-        for i in range(0,2):
-            print "jinput 1: ", self.jpInput.getComponent(0).getComponent(0).getComponent(i)
+        pass
         
     def btnInfo_click(self, *args):
         actualprocess = self.getProcessManager().getActiveProcess()
@@ -88,12 +73,17 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         print "** Info boton", self.cmbProcess.getSelectedItem(), type(self.cmbProcess.getSelectedItem()), " **"
         actualprocess = self.getProcessManager().getActiveProcess()
         ## INPUT
-        # Se le deberian de pasar el valor de los componentes graficos
-        print "** All componets: ", dir(self.jpInput)
-        print "** count components: ", self.jpInput.getComponentCount()
+        do = self.getProcessManager().getActiveProcess().getDynObject()
+        i = self.inputpanel
+        ift = i.getFieldsIterator()
+        params = {}
+        for ifield in ift:
+            params[ifield.getName()]=ifield.getValue()
+        print params
 
         ## EJECUCION
-        actualprocess.update(self)
+        # TODO: Pasarle el dyn mas sencillo
+        actualprocess.update(params)
 
         # OUTPUT establecer layout para mostrar chart
         # usando self.actualprocess

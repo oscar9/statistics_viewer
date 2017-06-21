@@ -5,12 +5,6 @@ import gvsig
 import addons.statistics_viewer.statisticprocess
 reload(addons.statistics_viewer.statisticprocess)
 
-#import addons.statistics_viewer.sv
-#reload(addons.statistics_viewer.sv)
-
-#import addons.statistics_viewer.process
-#reload(addons.statistics_viewer.process)
-
 from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractStatisticProcess
 
 import os
@@ -34,7 +28,7 @@ class StatProcess(AbstractStatisticProcess):
         
         dynclass = manager.get("Process","ProcessProperties")
         if dynclass == None: 
-          dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripción")
+          dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
           dynclass.addDynFieldString("name").setMandatory(False)
           dynclass.addDynFieldString("title").setMandatory(True)
           dynclass.addDynFieldString("type").setMandatory(True)
@@ -44,7 +38,7 @@ class StatProcess(AbstractStatisticProcess):
           
         return dynclass
         
-    def process(self, parameters):
+    def process(self, params):
         # generate barchart plot
         #ds = svgraph.svDefaultCategoryDataset()
         #c = svgraph.createBarChart("Boxplot x01", ds)
@@ -52,12 +46,15 @@ class StatProcess(AbstractStatisticProcess):
         #self.outputchart = c.getChart()
         # generate xyzchart plot
         ds = svgraph.svDefaultXYZDataset()
+        param_name = params.get("name") #params.getField("name")
+        print "parammmmmmmm:", param_name
         self.createdchart = svgraph.createXYZChart("Chart x01", ds)
 
         ### generate output console text
         import random
         numer = random.randint(100, 1000)
         self.console = " ** Proceso calculado: Tipo " + str(numer)
+        self.console += "** Nombre del usuario: " + str(param_name)
         self.console += """
 output: example no valid
 Attribute0 > 765.012954 AND Attribute1 <= 141.732431: Unsafe (143.0/1.0)
@@ -71,8 +68,6 @@ Attribute0 > 765.012954 AND Attribute3 > 163.157393 AND Attribute0 > 773.571142:
        Unsafe (65.0)
 """
         return self.createdchart
-        
-        
 
 def main(*args):
     print "* stat1.py: process"
@@ -82,7 +77,7 @@ def main(*args):
     
     dynfields = dynobject.getDynClass().getDynFields()
 
-    #dynobject.setDynValue("shxFile", "/home/j.shpo")
+    #dynobject.setDynValue("shxFile", "")
 
     for f in dynfields:
         print f.getName(),dynobject.getDynValue(f.getName()) 
