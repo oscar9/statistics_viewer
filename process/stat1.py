@@ -16,7 +16,6 @@ from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractSt
 import os
 from addons.statistics_viewer.sv import svgraph
 
-
 class StatProcess(AbstractStatisticProcess):
 
     name = "Proceso Estadistica 1"
@@ -25,12 +24,13 @@ class StatProcess(AbstractStatisticProcess):
     def __init__(self):
         AbstractStatisticProcess.__init__(self)
         
-    def setParameters(self):
-        dyn = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
-        dynform = self.importDynPanel(dyn) # TODO: tb establece el dynclass en el abstract
-        return dynform
         
-    def process(self, viewer):
+    def processParameters(self): #o: dynclass
+        dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+        dynclass = self.createDynClass(dynxml)
+        return dynclass
+        
+    def process(self, parameters):
         # generate barchart plot
         #ds = svgraph.svDefaultCategoryDataset()
         #c = svgraph.createBarChart("Boxplot x01", ds)
@@ -62,14 +62,24 @@ Attribute0 > 765.012954 AND Attribute3 > 163.157393 AND Attribute0 > 773.571142:
 
 def main(*args):
     print "* stat1.py: process"
-    import os
-    
     proc =  StatProcess()
-    print proc.setParameters()
-    new = proc.createNewParameters()
-    print "NEW: ", new
-    print "Name: ", proc.getProcessName()
-    print "Input panel: ", proc.getInputPanel()
-    print "DynForm: ", proc.getDynForm()
-    #print proc.process()
-    print "Outputpanel: ", proc.getOutputPanel()
+    dynobject = proc.createParameters()
+    dynclass = dynobject.getDynClass()
+    
+    dynfields = dynobject.getDynClass().getDynFields()
+
+    print type(dynfields)
+    dynobject.setDynValue("shxFile", "/home/j.shpo")
+    
+    for f in dynfields:
+        print f.getName(),dynobject.getDynValue(f.getName()) 
+    """
+shxFile
+allowInconsistenciesInGeometryType
+dbfFile
+CRS
+useNullGeometry
+shpFile
+loadCorruptGeometriesAsNull
+"""
+    return

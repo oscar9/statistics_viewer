@@ -61,6 +61,18 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         ### TODO: eliminar 
         #self.btnProcess_click()
         
+    def btnGetParameters_click(self, *args):
+        #print self.jpInput, type(self.jpInput), dir(self.jpInput)
+        #print self.jpInput.getComponents()[0]
+        proc = self.getProcessManager().getActiveProcess()
+        dynobject = proc.createParameters()
+        dynclass = dynobject.getDynClass()
+        
+        dynfields = dynobject.getDynClass().getDynFields()
+
+        for f in dynfields:
+            print f.getName(),dynobject.getDynValue(f.getName()) 
+        
     def btnInfo_click(self, *args):
         actualprocess = self.getProcessManager().getActiveProcess()
         self.txtConsole.setText(actualprocess.getDescription())

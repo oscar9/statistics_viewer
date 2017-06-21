@@ -10,6 +10,7 @@ from addons.statistics_viewer.process import stat1, stat2
 class StatisticsProcessManager():
     processes = []
     active = None
+    
     def getProcesses(self):
         self.processes.append(stat1.StatProcess)
         #self.processes.append(stat2.StatProcess)

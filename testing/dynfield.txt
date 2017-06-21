@@ -1,0 +1,10 @@
+DynField[952633098]( 
+
+name='dbfFile', 
+description='dbf file', type='type=0xD;subtype=File;name=File;class=java.io.File;coercion=org.gvsig.tools.dataTypes.impl.coercion.CoerceToFile',
+ subType='null',
+ mandatory='false',
+ defaultValue='null',
+ minValue='null',
+ maxValue='null',
+ persistent='true )
