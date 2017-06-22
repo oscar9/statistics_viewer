@@ -14,6 +14,7 @@ class StatProcess(AbstractStatisticProcess):
 
     name = "Proceso Estadistica 1"
     description = "Calculo de edad"
+    allowZoomProcess = True
     
     def __init__(self):
         AbstractStatisticProcess.__init__(self)
@@ -57,12 +58,6 @@ class StatProcess(AbstractStatisticProcess):
         self.console += "** Nombre del usuario: " + str(param_name)
         self.console += """
 output: example no valid
-Attribute0 > 765.012954 AND Attribute1 <= 141.732431: Unsafe (143.0/1.0)
-Attribute0 > 765.012954 AND Attribute3 > 163.157393 AND Attribute0 > 773.571142: 
-       Unsafe (65.0)
-Attribute0 > 765.012954 AND Attribute1 <= 141.732431: Unsafe (143.0/1.0)
-Attribute0 > 765.012954 AND Attribute3 > 163.157393 AND Attribute0 > 773.571142: 
-       Unsafe (65.0)
 Attribute0 > 765.012954 AND Attribute1 <= 141.732431: Unsafe (143.0/1.0)
 Attribute0 > 765.012954 AND Attribute3 > 163.157393 AND Attribute0 > 773.571142: 
        Unsafe (65.0)

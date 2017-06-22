@@ -53,7 +53,10 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.setSelectedProcess()
         # INPUT
         actualprocess = self.getProcessManager().getActiveProcess()
-        
+        if actualprocess.allowZoomProcess == False:
+            self.chbZoom.setEnabled(False)
+        else:
+            self.chbZoom.setEnabled(True)
         self.jpInput.removeAll()
         self.jpOutput.removeAll()
         self.jpInput.setLayout(BorderLayout())
