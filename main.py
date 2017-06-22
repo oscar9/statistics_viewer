@@ -22,13 +22,19 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.spm = StatisticsProcessManager()
         processes = self.spm.getProcesses()
         
-        for s in range(0, len(processes)):
-            self.cmbProcess.addItem([s,processes[s]])
+        for p in processes:
+            #self.cmbProcess.addItem([s,processes[s]])
+            #self.cmbProcess.addItem((str(s),processes[s]))
+            print "PPP:", p
+            self.cmbProcess.addItem(p)
         #ex: self.cmbProcess.addItem(["text", "text"])
         
         #Viewport listener
-        self.mapContext = gvsig.currentView().getMapContext()
-        self.mapContext.getViewPort().addViewPortListener(self)
+        try:
+            self.mapContext = gvsig.currentView().getMapContext()
+            self.mapContext.getViewPort().addViewPortListener(self)
+        except:
+            print "** No Zoom Process Avalaible**" #TODO: desactivar del viewer la opcion
         
     def getProcessManager(self):
         return self.spm
@@ -50,13 +56,14 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         
     def cmbProcess_click(self, *args):
         #self.actualprocess = self.cmbProcess.getSelectedItem()[1]()
-        self.setSelectedProcess()
+        actualprocess = self.setSelectedProcess()
+        
         # INPUT
-        actualprocess = self.getProcessManager().getActiveProcess()
         if actualprocess.allowZoomProcess == False:
             self.chbZoom.setEnabled(False)
         else:
             self.chbZoom.setEnabled(True)
+        
         self.jpInput.removeAll()
         self.jpOutput.removeAll()
         self.jpInput.setLayout(BorderLayout())
@@ -73,7 +80,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.txtConsole.setText(actualprocess.getDescription())
         
     def btnProcess_click(self, *args):
-        print "** Info boton", self.cmbProcess.getSelectedItem(), type(self.cmbProcess.getSelectedItem()), " **"
+        #print "** Info boton", self.cmbProcess.getSelectedItem(), type(self.cmbProcess.getSelectedItem()), " **"
         actualprocess = self.getProcessManager().getActiveProcess()
         ## INPUT
         do = self.getProcessManager().getActiveProcess().getDynObject()
@@ -102,16 +109,18 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.txtConsole.setText(actualprocess.getOutputConsole())
 
     def cmbProcess_change(self, *args):
-        print "changed: ", self.cmbProcess.getSelectedItem()
+        print "Process Changed: ", self.cmbProcess.getSelectedItem()
+        #self.getProcessManager()
         
     def btnSavePlot_click(self, *args):
         actualprocess = self.getProcessManager().getActiveProcess()
         actualprocess.createdchart.savePlotImage("/home/osc/temp/new1.png")
         
     def setSelectedProcess(self):
-        print "Actual selected process", self.cmbProcess.getSelectedItem()[1]
-        selected =  self.cmbProcess.getSelectedItem()[1]
+        print "Actual selected process", self.cmbProcess.getSelectedItem()
+        selected =  self.cmbProcess.getSelectedItem()
         self.getProcessManager().setActiveProcess(selected)
+        return selected
         
         
 def main(*args):

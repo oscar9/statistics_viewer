@@ -286,8 +286,8 @@
              </object>
             </at>
             <at name="titleJustification">2</at>
-            <at name="name"></at>
             <at name="width">396</at>
+            <at name="name"/>
             <at name="text">Input</at>
             <at name="height">19</at>
            </object>
@@ -426,7 +426,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.1995067320</at>
+        <at name="id">embedded.641903504</at>
         <at name="rowspecs">CENTER:DEFAULT:NONE</at>
         <at name="colspecs">FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE</at>
         <at name="components">
@@ -698,7 +698,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.895674679</at>
+        <at name="id">embedded.1140195629</at>
         <at name="rowspecs">FILL:PREF:NONE</at>
         <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:72PX:NONE</at>
         <at name="components">

@@ -12,26 +12,48 @@ from addons.statistics_viewer.sv import svgraph
 
 from org.jfree.data.category import CategoryDataset, DefaultCategoryDataset
 
-class StatProcess(AbstractStatisticProcess):
+class StatProcessProfile(AbstractStatisticProcess):
 
-    name = "Proceso Estadistica 1"
+    name = "Generador de perfil"
     description = "Perfil dinámico en funcion de la Vista con la capa de salida del geoproceso Perfil"
-    dynform = None
-    createdchart = None
+    idprocess = "create-dynamic-profile"
+    allowZoomProcess = True
+    
+    #dynform = None
+    #createdchart = None
 
-    console = ""
+    #console = ""
     def __init__(self):
-        dynxml = os.path.join(os.path.dirname(__file__), "stat2.xml")
-        self.dynform = self.importDynPanel(dynxml)
-        #self.process()
+        AbstractStatisticProcess.__init__(self)
         
-    def getDescription(self):
-        return self.description
+    def processParameters(self): #o: dynclass
+        #dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+        #dynclass = self.createDynClass(dynxml)
         
-    def process(self, viewer):
-        smax = viewer.chbMax.isSelected()
-        smin = viewer.chbMin.isSelected()
-        exageracion = float(viewer.txtEx.getText())
+        manager = self.getToolsLocator().getDynObjectManager()
+        #mydata = manager.createDynObject("MyStruct")
+        
+        dynclass = manager.get("Process","ProcessProperties")
+        if dynclass == None: 
+          dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
+          dynclass.addDynFieldBoolean("Max").setMandatory(True)
+          dynclass.addDynFieldBoolean("Min").setMandatory(True)
+          dynclass.addDynFieldInt("Exageracion").setMandatory(True) 
+          
+          
+          #definition.addDynFieldObject("service").setClassOfValue(ChartService.class)
+          manager.add(dynclass)
+          
+        return dynclass
+        
+    def process(self, params):
+        smax = params.get("Max") 
+        smin = params.get("Min") 
+        exageracion = params.get("Exageracion") 
+        
+        #smax = viewer.chbMax.isSelected()
+        #smin = viewer.chbMin.isSelected()
+        #exageracion = float(viewer.txtEx.getText())
         
         ds = DefaultCategoryDataset()
         mapContext = gvsig.currentView().getMapContext()
@@ -53,15 +75,9 @@ class StatProcess(AbstractStatisticProcess):
         
         return self.createdchart
         
-    def getInputPanel(self):
-        return self.dynform
-        
 
 def main(*args):
     print "* stat1.py: process"
     import os
     
     proc =  StatProcess()
-    print proc.getProcessName()
-    print proc.getInputPanel()
-    print proc.getOutputPanel()

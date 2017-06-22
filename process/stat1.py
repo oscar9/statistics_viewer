@@ -12,8 +12,9 @@ from addons.statistics_viewer.sv import svgraph
 
 class StatProcess(AbstractStatisticProcess):
 
-    name = "Proceso Estadistica 1"
+    name = ">> Proceso Estadistica 1"
     description = "Calculo de edad"
+    idprocess = "view-graph-example-1"
     allowZoomProcess = True
     
     def __init__(self):
@@ -48,7 +49,7 @@ class StatProcess(AbstractStatisticProcess):
         # generate xyzchart plot
         ds = svgraph.svDefaultXYZDataset()
         param_name = params.get("name") #params.getField("name")
-        print "parammmmmmmm:", param_name
+
         self.createdchart = svgraph.createXYZChart("Chart x01", ds)
 
         ### generate output console text

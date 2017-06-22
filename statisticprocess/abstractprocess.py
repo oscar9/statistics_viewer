@@ -25,6 +25,12 @@ class AbstractStatisticProcess():
         self.dynclass = self.createParameters()
         self.dynform = self.createDynForm(self.dynclass)
         
+    def __str__(self):
+        return self.name
+        
+    def __repr__(self):
+        return self.name
+        
     def createParameters(self): #i: dynclass o: dynobject
         self.dynclass = self.processParameters()
         self.dynobject = DefaultDynObjectManager().createDynObject(self.dynclass)
