@@ -18,7 +18,8 @@ class StatProcess(AbstractStatisticProcess):
     allowZoomProcess = True
     
     def __init__(self):
-        AbstractStatisticProcess.__init__(self)
+        #AbstractStatisticProcess.__init__(self)
+        pass
         
         
     def processParameters(self): #o: dynclass
@@ -28,15 +29,15 @@ class StatProcess(AbstractStatisticProcess):
         manager = self.getToolsLocator().getDynObjectManager()
         #mydata = manager.createDynObject("MyStruct")
         
-        dynclass = manager.get("Process","ProcessProperties")
-        if dynclass == None: 
-          dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
-          dynclass.addDynFieldString("name").setMandatory(False)
-          dynclass.addDynFieldString("title").setMandatory(True)
-          dynclass.addDynFieldString("type").setMandatory(True)
+        #dynclass = manager.get("Process","ProcessProperties")
+        #if dynclass == None: 
+        dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
+        dynclass.addDynFieldString("name").setMandatory(False)
+        dynclass.addDynFieldString("title").setMandatory(True)
+        dynclass.addDynFieldString("type").setMandatory(True)
           
           #definition.addDynFieldObject("service").setClassOfValue(ChartService.class)
-          manager.add(dynclass)
+          #manager.add(dynclass)
           
         return dynclass
         
@@ -69,12 +70,8 @@ def main(*args):
     print "* stat1.py: process"
     proc =  StatProcess()
     dynobject = proc.createParameters()
-    dynclass = dynobject.getDynClass()
-    
-    dynfields = dynobject.getDynClass().getDynFields()
-
-    #dynobject.setDynValue("shxFile", "")
-
-    for f in dynfields:
-        print f.getName(),dynobject.getDynValue(f.getName()) 
-    return
+    print dynobject
+    dynobject.setDynValue("name", "Proceso")
+    dynobject.setDynValue("title", "Titulo")
+    dynobject.setDynValue("type", "Vectorial")
+    print dynobject.getDynClass().getDynFields()

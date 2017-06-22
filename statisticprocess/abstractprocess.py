@@ -12,9 +12,9 @@ from org.gvsig.tools import ToolsLocator
         
 class AbstractStatisticProcess():
     # el metodo process actualizara la nueva grafica
-    dynobject = None
-    dynform = None
-    dynclass = None
+    #dynobject = None
+    #dynform = None
+    #dynclass = None
     outputpanel = None
     outputchart = None
 
@@ -22,8 +22,9 @@ class AbstractStatisticProcess():
     console = ""
     
     def __init__(self):
-        self.dynclass = self.createParameters()
-        self.dynform = self.createDynForm(self.dynclass)
+        #self.dynclass = self.createParameters()
+        #self.dynform = self.createDynForm(self.dynclass)
+        pass
         
     def __str__(self):
         return self.name
@@ -32,38 +33,44 @@ class AbstractStatisticProcess():
         return self.name
         
     def createParameters(self): #i: dynclass o: dynobject
-        self.dynclass = self.processParameters()
-        self.dynobject = DefaultDynObjectManager().createDynObject(self.dynclass)
-        return self.dynobject
+        dynclass = self.processParameters()
+        dynobject = DefaultDynObjectManager().createDynObject(dynclass)
+        return dynobject
         
     def getToolsLocator(self):
         return ToolsLocator
         
-    def createDynClass(self, dynobjectxml):
-        if dynobjectxml==None:
-            print "dynobjectxml is None"
-            return None
-        elif os.path.exists(dynobjectxml)==False:
-            print "not path found"
-            return None
-        resource = FileInputStream(dynobjectxml)
-        #Cargar
-        #frparams = FileResourceParameters(dynobjectxml)
-        #resource = FileResource(frparams)
-        
-        loader = None
-        #try:
-        dynclass = DefaultDynObjectManager().importDynClassDefinitions(resource, loader)["SHPStoreParameters"]
-        return dynclass
+    #def createDynClass(self, dynobjectxml):
+    #    if dynobjectxml==None:
+    #        print "dynobjectxml is None"
+    #        return None
+    #    elif os.path.exists(dynobjectxml)==False:
+    #        print "not path found"
+    #        return None
+    #    resource = FileInputStream(dynobjectxml)
+    #    #Cargar
+    #    #frparams = FileResourceParameters(dynobjectxml)
+    #    #resource = FileResource(frparams)
+    #    
+    #    loader = None
+    #    #try:
+    #    dynclass = DefaultDynObjectManager().importDynClassDefinitions(resource, loader)["SHPStoreParameters"]
+    #    return dynclass
 
-    def createDynForm(self, dynclass):
+    def makeDynForm(self, dynclass):
         dynform = DefaultDynFormManager().createJDynForm(dynclass) #i:dynobject,dynstruct o:jdynform
         #except Exception,e:
         #  self.dynform = jfc.FormPanel(FileInputStream(dynobjectxml))
         return dynform
         
+    def createDynForm(self):
+        dynclass = self.createParameters()
+        print dynclass
+        dynform = self.makeDynForm(dynclass)
+        return dynform
+        
     def getDynObject(self):
-        return self.dynobject
+        return self.createParameters()
         
     def getDescription(self):
         return self.description
@@ -72,9 +79,6 @@ class AbstractStatisticProcess():
         c = self.process(params)
         self.outputpanel = c.getChartPanel()
         self.outputchart = c.getChart()
-    
-    def getDynForm(self):
-        return self.dynform
 
     def getOutputConsole(self):
         return self.console
@@ -87,9 +91,6 @@ class AbstractStatisticProcess():
 
     def getProcessName(self):
         return self.name
-
-    def getInputPanel(self):
-        return self.dynform
 
     def setDynClass(self, dynclass):
         self.dynclass = dynclass

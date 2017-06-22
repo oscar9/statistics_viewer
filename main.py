@@ -13,7 +13,7 @@ from org.gvsig.fmap.mapcontext.events.listeners import ViewPortListener
 class StatisticsViewer(ViewPortListener,FormPanel):
     mapContext = None
     spm = None #Statistics Process Manager
-    inputpanel = None
+    jdynform = None
     def __init__(self):
         FormPanel.__init__(self, os.path.join(os.path.dirname(__file__), "statistics_viewer.xml"))
         icon = self.load_icon(os.path.join(os.path.dirname(__file__), "info.ico"))
@@ -56,19 +56,19 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         
     def cmbProcess_click(self, *args):
         #self.actualprocess = self.cmbProcess.getSelectedItem()[1]()
-        actualprocess = self.setSelectedProcess()
-        
+        self.setSelectedProcess()
+        actualprocess = self.getProcessManager().getActiveProcess()
         # INPUT
         if actualprocess.allowZoomProcess == False:
             self.chbZoom.setEnabled(False)
         else:
             self.chbZoom.setEnabled(True)
-        
+
         self.jpInput.removeAll()
         self.jpOutput.removeAll()
         self.jpInput.setLayout(BorderLayout())
-        self.inputpanel = actualprocess.getInputPanel()
-        self.jpInput.add(self.inputpanel.asJComponent(),BorderLayout.CENTER)
+        self.jdynform = actualprocess.createDynForm()
+        self.jpInput.add(self.jdynform.asJComponent(),BorderLayout.CENTER)
         self.jpInput.validate()
         
         ### TODO: eliminar 
@@ -84,7 +84,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         actualprocess = self.getProcessManager().getActiveProcess()
         ## INPUT
         do = self.getProcessManager().getActiveProcess().getDynObject()
-        i = self.inputpanel
+        i = self.jdynform
         ift = i.getFieldsIterator()
         params = {}
         for ifield in ift:
@@ -109,18 +109,17 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.txtConsole.setText(actualprocess.getOutputConsole())
 
     def cmbProcess_change(self, *args):
-        print "Process Changed: ", self.cmbProcess.getSelectedItem()
-        #self.getProcessManager()
+        #print "Process Changed: ", self.cmbProcess.getSelectedItem()
+        pass
         
     def btnSavePlot_click(self, *args):
         actualprocess = self.getProcessManager().getActiveProcess()
         actualprocess.createdchart.savePlotImage("/home/osc/temp/new1.png")
         
     def setSelectedProcess(self):
-        print "Actual selected process", self.cmbProcess.getSelectedItem()
         selected =  self.cmbProcess.getSelectedItem()
         self.getProcessManager().setActiveProcess(selected)
-        return selected
+        return self.getProcessManager().getActiveProcess()
         
         
 def main(*args):

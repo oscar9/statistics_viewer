@@ -33,16 +33,18 @@ class StatProcessProfile(AbstractStatisticProcess):
         manager = self.getToolsLocator().getDynObjectManager()
         #mydata = manager.createDynObject("MyStruct")
         
-        dynclass = manager.get("Process","ProcessProperties")
-        if dynclass == None: 
-          dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
-          dynclass.addDynFieldBoolean("Max").setMandatory(True)
-          dynclass.addDynFieldBoolean("Min").setMandatory(True)
-          dynclass.addDynFieldInt("Exageracion").setMandatory(True) 
-          
-          
-          #definition.addDynFieldObject("service").setClassOfValue(ChartService.class)
-          manager.add(dynclass)
+        #dynclass = manager.get("Statistics2","Statistics2 Properties")
+        #if dynclass == None:
+        
+        dynclass = manager.createDynClass("Statistics23", "Statistics2 Properties", "aqui va la descripcion")
+        dynclass.addDynFieldString("Layer").setMandatory(True)
+        dynclass.addDynFieldBoolean("Max").setMandatory(True)
+        dynclass.addDynFieldBoolean("Min").setMandatory(True)
+        dynclass.addDynFieldInt("Exageracion").setMandatory(True) 
+        
+        
+        #definition.addDynFieldObject("service").setClassOfValue(ChartService.class)
+        #manager.add(dynclass)
           
         return dynclass
         
@@ -50,6 +52,7 @@ class StatProcessProfile(AbstractStatisticProcess):
         smax = params.get("Max") 
         smin = params.get("Min") 
         exageracion = params.get("Exageracion") 
+        layername = params.get("Layer")
         
         #smax = viewer.chbMax.isSelected()
         #smin = viewer.chbMin.isSelected()
@@ -57,7 +60,7 @@ class StatProcessProfile(AbstractStatisticProcess):
         
         ds = DefaultCategoryDataset()
         mapContext = gvsig.currentView().getMapContext()
-        layer = gvsig.currentView().getLayer("puntos")
+        layer = gvsig.currentView().getLayer(layername)
         viewbox = mapContext.getViewPort().getEnvelope().getGeometry()
         features = layer.features()
         allz = []
@@ -80,4 +83,4 @@ def main(*args):
     print "* stat1.py: process"
     import os
     
-    proc =  StatProcess()
+    proc =  StatProcessProfile()
