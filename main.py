@@ -3,10 +3,10 @@
 import gvsig
 from gvsig.libs.formpanel import FormPanel
 import os
-import addons.statistics_viewer.process.processmanager
-reload(addons.statistics_viewer.process.processmanager)
+import addons.statistics_viewer.processmanager
+reload(addons.statistics_viewer.processmanager)
 
-from addons.statistics_viewer.process.processmanager import StatisticsProcessManager
+from addons.statistics_viewer.processmanager.processmanager import StatisticsProcessManager
 from java.awt import BorderLayout
 from org.gvsig.fmap.mapcontext.events.listeners import ViewPortListener
 
@@ -25,7 +25,6 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         for p in processes:
             #self.cmbProcess.addItem([s,processes[s]])
             #self.cmbProcess.addItem((str(s),processes[s]))
-            print "PPP:", p
             self.cmbProcess.addItem(p)
         #ex: self.cmbProcess.addItem(["text", "text"])
         

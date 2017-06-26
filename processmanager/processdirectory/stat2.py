@@ -12,7 +12,7 @@ from addons.statistics_viewer.sv import svgraph
 
 from org.jfree.data.category import CategoryDataset, DefaultCategoryDataset
 
-class StatProcessProfile(AbstractStatisticProcess):
+class StatProcess(AbstractStatisticProcess):
 
     name = "Generador de perfil"
     description = "Perfil dinámico en funcion de la Vista con la capa de salida del geoproceso Perfil"
@@ -24,7 +24,8 @@ class StatProcessProfile(AbstractStatisticProcess):
 
     #console = ""
     def __init__(self):
-        AbstractStatisticProcess.__init__(self)
+        #AbstractStatisticProcess.__init__(self)
+        pass
         
     def processParameters(self): #o: dynclass
         #dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
@@ -83,4 +84,4 @@ def main(*args):
     print "* stat1.py: process"
     import os
     
-    proc =  StatProcessProfile()
+    proc =  StatProcess()
