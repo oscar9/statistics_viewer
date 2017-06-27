@@ -9,10 +9,19 @@ from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractSt
 
 import os
 from addons.statistics_viewer.sv import svgraph
+from org.gvsig.tools.dynobject import DynField, DynObject
 
+class ChartService(DynField, DynObject):
+
+    def __init__(self):
+        pass
+
+    def getDynValue(self):
+        return ""
+        
 class StatProcess(AbstractStatisticProcess):
 
-    name = ">> Proceso Estadistica 1"
+    name = "Proceso Estadistica 1"
     description = "Calculo de edad"
     idprocess = "view-graph-example-1"
     allowZoomProcess = True
@@ -32,11 +41,16 @@ class StatProcess(AbstractStatisticProcess):
         #dynclass = manager.get("Process","ProcessProperties")
         #if dynclass == None: 
         dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
-        dynclass.addDynFieldString("name").setMandatory(False)
-        dynclass.addDynFieldString("title").setMandatory(True)
-        dynclass.addDynFieldString("type").setMandatory(True)
-          
-          #definition.addDynFieldObject("service").setClassOfValue(ChartService.class)
+        #dynclass.addDynFieldString("name").setMandatory(False)
+        #dynclass.addDynFieldString("title").setMandatory(True)
+        #dynclass.addDynFieldString("type").setMandatory(True)
+        #dynclass.addDynFieldBoolean("Min").setMandatory(True)
+        dynclass.addDynFieldInt("Exageracion").setMandatory(True) 
+        
+        di = dynclass.addDynFieldObject("service12")
+        di.setClassOfValue(ChartService)
+        di.setDefaultDynValue([1,4])
+        
           #manager.add(dynclass)
           
         return dynclass
@@ -71,7 +85,13 @@ def main(*args):
     proc =  StatProcess()
     dynobject = proc.createParameters()
     print dynobject
-    dynobject.setDynValue("name", "Proceso")
-    dynobject.setDynValue("title", "Titulo")
-    dynobject.setDynValue("type", "Vectorial")
-    print dynobject.getDynClass().getDynFields()
+    
+    #dynobject.setDynValue("name", "Proceso")
+    #dynobject.setDynValue("title", "Titulo")
+    #dynobject.setDynValue("type", "Vectorial")
+    
+    fields = dynobject.getDynClass().getDynFields()
+    
+
+    for d in fields:
+        print "******************  ", d#.getValue()

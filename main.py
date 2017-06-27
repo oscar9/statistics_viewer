@@ -82,8 +82,9 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         #print "** Info boton", self.cmbProcess.getSelectedItem(), type(self.cmbProcess.getSelectedItem()), " **"
         actualprocess = self.getProcessManager().getActiveProcess()
         ## INPUT
-        do = self.getProcessManager().getActiveProcess().getDynObject()
+        #do = self.getProcessManager().getActiveProcess().getDynObject()
         i = self.jdynform
+        ### converson de dynobject a dict
         ift = i.getFieldsIterator()
         params = {}
         for ifield in ift:
