@@ -31,13 +31,13 @@ class StatProcess(AbstractStatisticProcess):
         #dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
         #dynclass = self.createDynClass(dynxml)
         
-        manager = self.getToolsLocator().getDynObjectManager()
+        #manager = self.getToolsLocator().getDynObjectManager()
         #mydata = manager.createDynObject("MyStruct")
         
         #dynclass = manager.get("Statistics2","Statistics2 Properties")
         #if dynclass == None:
         
-        dynclass = manager.createDynClass("Statistics23", "Statistics2 Properties", "aqui va la descripcion")
+        dynclass = self.createInputParameters("Statistics23", "Statistics2 Properties", "aqui va la descripcion")
         dynclass.addDynFieldString("Layer").setMandatory(True)
         dynclass.addDynFieldBoolean("Max").setMandatory(True)
         dynclass.addDynFieldBoolean("Min").setMandatory(True)
@@ -47,9 +47,10 @@ class StatProcess(AbstractStatisticProcess):
         #definition.addDynFieldObject("service").setClassOfValue(ChartService.class)
         #manager.add(dynclass)
           
-        return dynclass
+        #return dynclass
         
     def process(self, params):
+        print "*params: ", params
         smax = params.get("Max") 
         smin = params.get("Min") 
         exageracion = params.get("Exageracion") 
@@ -85,3 +86,4 @@ def main(*args):
     import os
     
     proc =  StatProcess()
+

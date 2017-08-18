@@ -26,6 +26,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
             #self.cmbProcess.addItem([s,processes[s]])
             #self.cmbProcess.addItem((str(s),processes[s]))
             self.cmbProcess.addItem(p)
+
         #ex: self.cmbProcess.addItem(["text", "text"])
         
         #Viewport listener
@@ -33,7 +34,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
             self.mapContext = gvsig.currentView().getMapContext()
             self.mapContext.getViewPort().addViewPortListener(self)
         except:
-            print "** No Zoom Process Avalaible**" #TODO: desactivar del viewer la opcion
+            print "** No Zoom Process Avalaible**"
         
     def getProcessManager(self):
         return self.spm
@@ -83,30 +84,31 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         actualprocess = self.getProcessManager().getActiveProcess()
         ## INPUT
         #do = self.getProcessManager().getActiveProcess().getDynObject()
-        i = self.jdynform
-        ### converson de dynobject a dict
-        ift = i.getFieldsIterator()
-        params = {}
-        for ifield in ift:
-            params[ifield.getName()]=ifield.getValue()
-        print params
 
         ## EJECUCION
         # TODO: Pasarle el dyn mas sencillo
-        actualprocess.update(params)
+        
+        actualprocess.update(self.jdynform)
 
         # OUTPUT establecer layout para mostrar chart
         # usando self.actualprocess
         self.jpOutput.removeAll()
         self.jpOutput.setLayout(BorderLayout())
         outputpanel = actualprocess.getOutputPanel()
-        self.jpOutput.add(outputpanel,BorderLayout.CENTER)
-        self.jpOutput.validate()
+
+        if outputpanel != None:
+            self.jpOutput.add(outputpanel,BorderLayout.CENTER)
+            self.jpOutput.validate()
+
         ## TODO: mantener track de los elementos que tiene el inputpanel
         ## TODO: necesario para leerlos luego y pasarlos como params
         #print "txtX: ", self.txtX.getText()
         #print "txtY: ", self.txtY.getText()
-        self.txtConsole.setText(actualprocess.getOutputConsole())
+        outputconsole = actualprocess.getOutputConsole()
+        if isinstance(outputconsole, str) or isinstance(outputconsole, unicode):
+            self.txtConsole.setText(outputconsole)
+        else:
+            self.txtConsole.setText("")
 
     def cmbProcess_change(self, *args):
         #print "Process Changed: ", self.cmbProcess.getSelectedItem()

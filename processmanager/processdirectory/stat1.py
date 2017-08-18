@@ -26,11 +26,6 @@ class StatProcess(AbstractStatisticProcess):
     idprocess = "view-graph-example-1"
     allowZoomProcess = True
     
-    def __init__(self):
-        #AbstractStatisticProcess.__init__(self)
-        pass
-        
-        
     def processParameters(self): #o: dynclass
         #dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
         #dynclass = self.createDynClass(dynxml)
@@ -40,22 +35,24 @@ class StatProcess(AbstractStatisticProcess):
         
         #dynclass = manager.get("Process","ProcessProperties")
         #if dynclass == None: 
-        dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
+        #dynclass = manager.createDynClass("Process", "ProcessProperties", "aqui va la descripcion")
+        params = self.createInputParameters("Process", "ProcessProperties", "aqui va la descripcion")
         #dynclass.addDynFieldString("name").setMandatory(False)
         #dynclass.addDynFieldString("title").setMandatory(True)
         #dynclass.addDynFieldString("type").setMandatory(True)
         #dynclass.addDynFieldBoolean("Min").setMandatory(True)
-        dynclass.addDynFieldInt("Exageracion").setMandatory(True) 
+        params.addDynFieldInt("Exageracion").setMandatory(True) 
         
-        di = dynclass.addDynFieldObject("service12")
+        di = params.addDynFieldObject("service12")
         di.setClassOfValue(ChartService)
         di.setDefaultDynValue([1,4])
         
-          #manager.add(dynclass)
+        #manager.add(dynclass)
           
-        return dynclass
+        #return dynclass
         
     def process(self, params):
+        print "* params: ", params
         # generate barchart plot
         #ds = svgraph.svDefaultCategoryDataset()
         #c = svgraph.createBarChart("Boxplot x01", ds)
@@ -84,14 +81,9 @@ def main(*args):
     print "* stat1.py: process"
     proc =  StatProcess()
     dynobject = proc.createParameters()
-    print dynobject
-    
-    #dynobject.setDynValue("name", "Proceso")
-    #dynobject.setDynValue("title", "Titulo")
-    #dynobject.setDynValue("type", "Vectorial")
-    
-    fields = dynobject.getDynClass().getDynFields()
-    
 
-    for d in fields:
-        print "******************  ", d#.getValue()
+    dynobject.setDynValue("Exageracion", 34)
+    dynobject.setDynValue("service12",  2)
+
+    
+    result = proc.process(dynobject.getValues())

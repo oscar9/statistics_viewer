@@ -15,6 +15,7 @@ class AbstractStatisticProcess():
     #dynobject = None
     #dynform = None
     #dynclass = None
+    inputparameters = None
     outputpanel = None
     outputchart = None
 
@@ -25,15 +26,26 @@ class AbstractStatisticProcess():
         #self.dynclass = self.createParameters()
         #self.dynform = self.createDynForm(self.dynclass)
         pass
-        
+
+    def process(self):
+        # Overwrite
+        pass
     def __str__(self):
         return self.name
         
     def __repr__(self):
         return self.name
         
+    def createInputParameters(self,idp, process, description):
+        # Metodo para generar los parametros al iniciar el proceso
+        self.inputparameters = self.getToolsLocator().getDynObjectManager().createDynClass(idp, process, description)
+        return self.inputparameters
+        
+        
     def createParameters(self): #i: dynclass o: dynobject
-        dynclass = self.processParameters()
+        #dynclass = self.processParameters()
+        self.processParameters()
+        dynclass = self.inputparameters
         dynobject = DefaultDynObjectManager().createDynObject(dynclass)
         return dynobject
         
@@ -75,10 +87,19 @@ class AbstractStatisticProcess():
     def getDescription(self):
         return self.description
         
-    def update(self, params):
+    def update(self, dyn):
+        # proces dyn to dict -> pass to the process a dict
+        # TODO: fix el pase de parametros
+        ift = dyn.getFieldsIterator()
+        params = {}
+        for ifield in ift:
+            params[ifield.getName()]=ifield.getValue()
+            
         c = self.process(params)
-        self.outputpanel = c.getChartPanel()
-        self.outputchart = c.getChart()
+        
+        if c!=None: #TODO PROCESAR FICHEROS DE SALIDA
+            self.outputpanel = c.getChartPanel()
+            self.outputchart = c.getChart()
 
     def getOutputConsole(self):
         return self.console
@@ -89,6 +110,9 @@ class AbstractStatisticProcess():
     def getOutputChart(self):
         return self.outputchart
 
+    def setOutputPanel(self,panel):
+        self.outputpanel = panel
+        
     def getProcessName(self):
         return self.name
 
