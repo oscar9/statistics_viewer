@@ -113,7 +113,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
     def cmbProcess_change(self, *args):
         #print "Process Changed: ", self.cmbProcess.getSelectedItem()
         pass
-        
+
     def btnSavePlot_click(self, *args):
         actualprocess = self.getProcessManager().getActiveProcess()
         actualprocess.createdchart.savePlotImage("/home/osc/temp/new1.png")
@@ -122,8 +122,8 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         selected =  self.cmbProcess.getSelectedItem()
         self.getProcessManager().setActiveProcess(selected)
         return self.getProcessManager().getActiveProcess()
-        
-        
+
+
 def main(*args):
 
     tool = StatisticsViewer()

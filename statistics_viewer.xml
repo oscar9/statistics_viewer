@@ -24,10 +24,10 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/osc/devel-gvsig/gvSIG-desktop-2.3.1-2501-final-lin_ubuntu_16.04-x86_64/home/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/scripts/addons/statistics_viewer/statistics_viewer.xml</at>
+   <at name="id">/home/osc/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/scripts/addons/statistics_viewer/statistics_viewer.xml</at>
    <at name="path">addons/statistics_viewer/statistics_viewer.xml</at>
    <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,FILL:98PX:GROW(1.0),CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE,CENTER:DEFAULT:NONE</at>
-   <at name="colspecs">FILL:DEFAULT:NONE,FILL:400PX:NONE,FILL:DEFAULT:NONE,FILL:PREF:GROW(1.0),FILL:DEFAULT:NONE</at>
+   <at name="colspecs">FILL:DEFAULT:NONE,FILL:340PX:NONE,FILL:DEFAULT:NONE,FILL:PREF:GROW(1.0),FILL:DEFAULT:NONE</at>
    <at name="components">
     <object classname="java.util.LinkedList">
      <item >
@@ -115,8 +115,8 @@
           <at name="properties">
            <object classname="com.jeta.forms.store.support.PropertyMap">
             <at name="name">jpInput</at>
-            <at name="width">396</at>
-            <at name="height">237</at>
+            <at name="width">336</at>
+            <at name="height">94</at>
            </object>
           </at>
          </object>
@@ -149,8 +149,8 @@
           <at name="properties">
            <object classname="com.jeta.forms.store.support.PropertyMap">
             <at name="name">jpOutput</at>
-            <at name="width">487</at>
-            <at name="height">237</at>
+            <at name="width">530</at>
+            <at name="height">94</at>
            </object>
           </at>
          </object>
@@ -205,7 +205,7 @@
             <at name="scrollableTracksViewportHeight">true</at>
             <at name="scrollableTracksViewportWidth">true</at>
             <at name="name">txtConsole</at>
-            <at name="width">485</at>
+            <at name="width">528</at>
             <at name="scollBars">
              <object classname="com.jeta.forms.store.properties.ScrollBarsProperty">
               <at name="name">scollBars</at>
@@ -286,7 +286,7 @@
              </object>
             </at>
             <at name="titleJustification">2</at>
-            <at name="width">396</at>
+            <at name="width">336</at>
             <at name="name"/>
             <at name="text">Input</at>
             <at name="height">19</at>
@@ -342,7 +342,7 @@
              </object>
             </at>
             <at name="titleJustification">2</at>
-            <at name="width">487</at>
+            <at name="width">530</at>
             <at name="name"/>
             <at name="text">Output</at>
             <at name="height">19</at>
@@ -399,7 +399,7 @@
             </at>
             <at name="actionCommand">Zoom auto process</at>
             <at name="name">chbZoom</at>
-            <at name="width">396</at>
+            <at name="width">336</at>
             <at name="text">Zoom auto process</at>
             <at name="height">16</at>
            </object>
@@ -426,7 +426,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.641903504</at>
+        <at name="id">embedded.1251160750</at>
         <at name="rowspecs">CENTER:DEFAULT:NONE</at>
         <at name="colspecs">FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE</at>
         <at name="components">
@@ -698,7 +698,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.1140195629</at>
+        <at name="id">embedded.1052658133</at>
         <at name="rowspecs">FILL:PREF:NONE</at>
         <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:72PX:NONE</at>
         <at name="components">
@@ -748,7 +748,7 @@
                   </object>
                  </at>
                  <at name="name">cmbProcess</at>
-                 <at name="width">394</at>
+                 <at name="width">437</at>
                  <at name="items">
                   <object classname="com.jeta.forms.store.properties.ItemsProperty">
                    <at name="name">items</at>

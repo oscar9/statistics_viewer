@@ -27,9 +27,10 @@ class AbstractStatisticProcess():
         #self.dynform = self.createDynForm(self.dynclass)
         pass
 
-    def process(self):
+    def process(self, params):
         # Overwrite
         pass
+        
     def __str__(self):
         return self.name
         

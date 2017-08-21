@@ -38,8 +38,8 @@ class StatProcess(AbstractStatisticProcess):
 
         # Show first line table
         #print "\t\t", 
-        listfields = ["COORX", "COORY"]
-        columnNames = ["***", "COORX", "COORY"]
+        #listfields = ["COORX", "COORY"]
+        #columnNames = ["***", "COORX", "COORY"]
 
 
         #for f1 in listfields:
