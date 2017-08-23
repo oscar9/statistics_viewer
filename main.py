@@ -58,7 +58,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         
     def cmbProcess_click(self, *args):
         #self.actualprocess = self.cmbProcess.getSelectedItem()[1]()
-        """
+        
         self.setSelectedProcess()
         actualprocess = self.getProcessManager().getActiveProcess()
         # INPUT
@@ -89,8 +89,6 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         
         ### TODO: eliminar 
         #self.btnProcess_click()
-        pass
-        """
         pass
         
     def btnInfo_click(self, *args):
@@ -129,6 +127,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
             self.txtConsole.setText("")
 
     def cmbProcess_change(self, *args):
+        """
         if self.savedynform == True:
             #print "Process Changed: ", self.cmbProcess.getSelectedItem()
             if self.jdynform == None:
@@ -144,8 +143,9 @@ class StatisticsViewer(ViewPortListener,FormPanel):
             #print params
             self.savedynformparams = params
             self.savedynform = False
-
+        """
         pass
+        
 
     def btnSavePlot_click(self, *args):
         actualprocess = self.getProcessManager().getActiveProcess()

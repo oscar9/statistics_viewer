@@ -92,12 +92,18 @@ def createChart(dataset,field1="", field2=""):
     domainAxis.setAutoRangeIncludesZero(False)
     return chart
     
-def createPanel(dataset, field1="", field2=""):
-    chart = createChart(dataset, field1, field2)
+def createPanelMouseListener(chart):
     panel = ChartPanel(chart)
     panel.setMouseWheelEnabled(True)
     panel.addChartMouseListener(MyChartMouseListener(panel))
     return panel
+
+#def createPanel(dataset, field1="", field2=""):
+#    chart = createChart(dataset, field1, field2)
+#    panel = ChartPanel(chart)
+#    panel.setMouseWheelEnabled(True)
+#    panel.addChartMouseListener(MyChartMouseListener(panel))
+#    return panel
 
 class MyChartMouseListener(ChartMouseListener, ChartProgressListener): 
     panel = None

@@ -7,44 +7,20 @@ reload(addons.statistics_viewer.statisticprocess)
 import addons.statistics_viewer.sv
 reload(addons.statistics_viewer.sv)
 
-from addons.statistics_viewer.sv.svScatterPlot import createPanel, svXYSeriesCollection, createChart
+from addons.statistics_viewer.sv.svScatterPlot import createPanelMouseListener, createChart
 from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractStatisticProcess
-from org.gvsig.symbology.fmap.mapcontext.rendering.legend.impl import VectorialUniqueValueLegend
 
 import os
 from addons.statistics_viewer.sv import svgraph
+
 from org.apache.commons.math3.ml.clustering import FuzzyKMeansClusterer
 from java.util import ArrayList
-from org.apache.commons.math3.ml.clustering import DoublePoint
+#from org.apache.commons.math3.ml.clustering import DoublePoint
 from org.apache.commons.math3.ml.distance import EarthMoversDistance
 from org.apache.commons.math3.ml.distance import EuclideanDistance
-from org.apache.commons.math3.ml.clustering import Clusterable
+
 from org.jfree.data.xy import XYDataItem, XYSeries, XYSeriesCollection, XYDataset
 
-
-class gvDoublePoint(Clusterable): #DoublePoint):
-    feature = None
-    location = None
-    f1 = None
-    f2 = None
-    def __init__(self, feature, f1, f2):
-        #self.x = feature.geometry().getX()
-        #self.y = feature.geometry().getY()
-        self.f1 = f1
-        self.f2 = f2
-        #location = feature.geometry()
-        #DoublePoint.__init__(self, [x,y])
-        self.feature = feature
-    def getLocation(self):
-        return self
-    def getX(self):
-        return self.feature.get(self.f1)
-    def getY(self):
-        return self.feature.get(self.f2)
-    def getPoint(self):
-        return [self.getX(), self.getY()]
-    def getFeature(self):
-        return self.feature
 
 class StatProcess(AbstractStatisticProcess):
 
@@ -70,77 +46,52 @@ class StatProcess(AbstractStatisticProcess):
         param_maxIterations = params.get("MaxIterations")
         param_field1 = params.get("Field X")
         param_field2 = params.get("Field Y")
-        newfieldcluster = "IDCLUSTER"
+
+        layer = gvsig.currentView().getLayer(param_layer) # Acceso capa
         
-        layer = gvsig.currentView().getLayer(param_layer)
-        features = layer.features()
+        # Choose new cluster field name
+        fieldcluster = "IDK"
+        newfieldcluster = self.getUtils().getUniqueSchemaField(layer, fieldcluster)
         
         # Collect points
-        colection = []
-        for n,f in enumerate(features):
-            f1 = float(f.get(param_field1))
-            f2 = float(f.get(param_field2))
-            #dp = DoublePoint([f1,f2])
-            dp = gvDoublePoint(f.getCopy(), param_field1, param_field2)
-            colection.append(dp)
+        collection = self.getUtils().mlGetXYClusterableCollectionFromLayer(layer, param_field1, param_field2)
+        
         # Distance method
         dd = EarthMoversDistance()
         #dd = EuclideanDistance().getClass
 
         # Algorithm Fuzzykmeansclusterer
         fkppc = FuzzyKMeansClusterer(param_clusters, param_fuzziness, param_maxIterations, dd)
-        clusters = fkppc.cluster(colection)
+        clusters = fkppc.cluster(collection)
 
         # Output shape with cluster values
         newschema = gvsig.createFeatureType(layer.getSchema())
-        newschema.append(newfieldcluster, "INTEGER", 5)
+        newlayer = self.getUtils().mlGetLayerFromXYClusters(newschema, clusters, newfieldcluster)
 
-        newlayer = gvsig.createShape(newschema)
-
-        collection = svXYSeriesCollection(param_field1, param_field2)
-        for n, cluster in enumerate(clusters):
-            # Series
-            for doublepoint in cluster.getPoints():
-                feature = doublepoint.getFeature()
-                values = feature.getValues()
-                values[newfieldcluster] = n
-                point = doublepoint.getPoint()
-                fx = feature.geometry().getX()
-                fy = feature.geometry().getY()
-                values["GEOMETRY"] = geom.createPoint(geom.D2, fx, fy)
-                newlayer.append(values)
-                collection.addValues(str(n), point[0], point[1])
+        # Create collection for JFChart related to a layer
+        jfcCollection = self.getUtils().mlGetJfcCollectionFromClusters(newlayer, clusters, param_field1, param_field2)
         
-        newlayer.commit()
-        collection.updateSeries()
-        collection.setLayer(newlayer)
-        # Extract color of the values to set to the legend
-        chart = createChart(collection, param_field1, param_field2)
-        legend = chart.getPlot().getLegendItems()
-        items = {}
-        vuvl = VectorialUniqueValueLegend(geom.POINT)
-        for i in xrange(0, legend.getItemCount()):
-            item = legend.get(i)
-            yy = gvsig.simplePointSymbol(item.getFillPaint())
-            label = str(item.getLabel())
-            yy.setDescription(str(label))
-            yy.setColor(item.getFillPaint())
-            print "Label: ", int(label), yy
-            vuvl.addSymbol(int(label), yy)
-        vuvl.setClassifyingFieldNames([newfieldcluster])
-
-        panel = createPanel(collection, param_field1, param_field2)
-
-
-        newlayer.setLegend(vuvl)
         gvsig.currentView().addLayer(newlayer)
-        #dp = createDemoPanel(newlayer, "LATITUDE", "LONGITUDE")
+        
+        # Extract color of the values to set to the legend
+        chart = createChart(jfcCollection, param_field1, param_field2) # Create chart
+        panel = createPanelMouseListener(chart) # Create Panel using the functionality of svCollection selection allowed
+
+        # Set output panel
         self.setOutputPanel(panel)
+
+        # Process legend
+        gvsig_legend = self.getUtils().chart2legend_UniqueValue(chart, newfieldcluster)
+
+        newlayer.setLegend(gvsig_legend)
+
         self.console = u"** Análisis KMeansPlusPlus **"
         self.console += "\niterations: " + str(fkppc.getMaxIterations())
         self.console += "\nclusters: "+ str(fkppc.getK())
         self.console += "\nFuzzines: " + str(fkppc.getFuzziness())
         self.console += "\nEpsilon: " + str(fkppc.getEpsilon())
+        for n,cluster in enumerate(clusters):
+            self.console += "\n\tCluster id: " + str(n) + " center: " + str(cluster.getCenter())
         
 
 def main(*args):
@@ -153,7 +104,7 @@ def main(*args):
     proc =  StatProcess()
     dynobject = proc.createParameters()
 
-    dynobject.setDynValue("Layer", "V")
+    dynobject.setDynValue("Layer", "VV")
     dynobject.setDynValue("Clusters", 5)
     dynobject.setDynValue("Fuzziness", 2)
     dynobject.setDynValue("MaxIterations", 1)
@@ -162,5 +113,3 @@ def main(*args):
     proc.process(dynobject.getValues())
     print proc.getOutputConsole()
     panel =  proc.getOutputPanel()
-    #print "**panel: ", panel, type(panel), dir(panel)
-    pass

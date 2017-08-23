@@ -9,6 +9,8 @@ from org.gvsig.fmap.dal.resource.file import FileResourceParameters
 import os
 import com.jeta.forms.components.panel as jfc
 from org.gvsig.tools import ToolsLocator
+
+from addons.statistics_viewer.sv import utils
         
 class AbstractStatisticProcess():
     # el metodo process actualizara la nueva grafica
@@ -26,7 +28,9 @@ class AbstractStatisticProcess():
         #self.dynclass = self.createParameters()
         #self.dynform = self.createDynForm(self.dynclass)
         pass
-
+    def getUtils(self):
+        return utils
+        
     def process(self, params):
         # Overwrite
         pass
