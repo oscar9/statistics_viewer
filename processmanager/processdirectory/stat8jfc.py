@@ -21,10 +21,10 @@ class svXYSeriesCollection(XYSeriesCollection):
     f = None
     field1 = None
     field2 = None
-    def __init__(self,layer, field1, field2):
+    def __init__(self, serie, layer, field1, field2):
         self.layer = layer
         self.f = layer.features()
-        self.append(self.f,field1, field2)
+        self.append(serie, self.f,field1, field2)
         
     def getFeature(self, xp, yp):
         for f in self.f:
@@ -32,16 +32,14 @@ class svXYSeriesCollection(XYSeriesCollection):
                 selection = self.layer.getSelection()
                 selection.deselectAll()
                 selection.select(f)
-                
-                return f
+                return f.getCopy()
         
-    def append(self, features, field1, field2):
+    def append(self, seriename, features, field1, field2):
       self.field1 = field1 #"LONGITUDE"
       self.field2 = field2 #"LATITUDE"
       #x = []
       #y = []
-      nw = XYSeries("") #Title serie: Coord")
-      print "self:", dir(self)
+      nw = XYSeries(seriename) #Title serie: Coord")
       for n,f in enumerate(features):
           #x.append(f.LONGITUDE)
           #y.append(f.LATITUDE)
@@ -183,7 +181,6 @@ class newChart(ChartProgressListener):
 def createChart(dataset):
     chart = ChartFactory.createScatterPlot("",
             "", "", dataset, PlotOrientation.VERTICAL, True, True, False)
-    print chart
     plot = chart.getPlot()
     #import pdb; pdb.set_trace()
 
@@ -200,7 +197,8 @@ def createChart(dataset):
     return chart
     
 def createDemoPanel(features, field1, field2):
-    chart = createChart(svXYSeriesCollection(features, field1, field2)) #SampleXYDataset2())
+    serie = ""
+    chart = createChart(svXYSeriesCollection(serie, features, field1, field2)) #SampleXYDataset2())
     panel = ChartPanel(chart)
     panel.setMouseWheelEnabled(True)
     panel.addChartMouseListener(MyChartMouseListener(panel))

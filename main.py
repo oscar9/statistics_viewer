@@ -14,6 +14,8 @@ class StatisticsViewer(ViewPortListener,FormPanel):
     mapContext = None
     spm = None #Statistics Process Manager
     jdynform = None
+    savedynform = True
+    savedynformparams = {}
     def __init__(self):
         FormPanel.__init__(self, os.path.join(os.path.dirname(__file__), "statistics_viewer.xml"))
         icon = self.load_icon(os.path.join(os.path.dirname(__file__), "info.ico"))
@@ -56,6 +58,7 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         
     def cmbProcess_click(self, *args):
         #self.actualprocess = self.cmbProcess.getSelectedItem()[1]()
+        """
         self.setSelectedProcess()
         actualprocess = self.getProcessManager().getActiveProcess()
         # INPUT
@@ -68,11 +71,26 @@ class StatisticsViewer(ViewPortListener,FormPanel):
         self.jpOutput.removeAll()
         self.jpInput.setLayout(BorderLayout())
         self.jdynform = actualprocess.createDynForm()
+
+        dynform = self.jdynform
+        params = self.savedynformparams
+        #for k in params.keys():
+        #    value = params[k]
+        obj = actualprocess.dynobject
+        for ifield in dynform.getFieldsIterator():
+            if ifield.getName() in params.keys():
+                name = ifield.getName()
+                obj.setDynValue(name, params[name])
+
+        self.savedynform = True
+        
         self.jpInput.add(self.jdynform.asJComponent(),BorderLayout.CENTER)
         self.jpInput.validate()
         
         ### TODO: eliminar 
         #self.btnProcess_click()
+        pass
+        """
         pass
         
     def btnInfo_click(self, *args):
@@ -111,7 +129,22 @@ class StatisticsViewer(ViewPortListener,FormPanel):
             self.txtConsole.setText("")
 
     def cmbProcess_change(self, *args):
-        #print "Process Changed: ", self.cmbProcess.getSelectedItem()
+        if self.savedynform == True:
+            #print "Process Changed: ", self.cmbProcess.getSelectedItem()
+            if self.jdynform == None:
+                return
+            ift = self.jdynform.getFieldsIterator()
+            params = {}
+            for ifield in ift:
+                try:
+                    value = ifield.getValue()
+                except:
+                    value = ""
+                params[ifield.getName()]=value
+            #print params
+            self.savedynformparams = params
+            self.savedynform = False
+
         pass
 
     def btnSavePlot_click(self, *args):

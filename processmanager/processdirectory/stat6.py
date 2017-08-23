@@ -32,7 +32,8 @@ class StatProcess(AbstractStatisticProcess):
         
         di = params.addDynFieldObject("service12")
         di.setClassOfValue(ChartService)
-        di.setDefaultDynValue([1,4])
+        di.setDefaultDynValue(7)
+        print dir(di)
         
         
     def process(self, params):
@@ -47,6 +48,7 @@ def main(*args):
     dynobject = proc.createParameters()
 
     dynobject.setDynValue("IntTest", 34)
+    dynobject.setDynValue("service12", 1)
     
-    result = proc.process(dynobject.getValues())
-    print result
+    proc.process(dynobject.getValues())
+    print proc.getOutputConsole()

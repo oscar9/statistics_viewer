@@ -12,7 +12,7 @@ from org.gvsig.tools import ToolsLocator
         
 class AbstractStatisticProcess():
     # el metodo process actualizara la nueva grafica
-    #dynobject = None
+    dynobject = None
     #dynform = None
     #dynclass = None
     inputparameters = None
@@ -47,8 +47,8 @@ class AbstractStatisticProcess():
         #dynclass = self.processParameters()
         self.processParameters()
         dynclass = self.inputparameters
-        dynobject = DefaultDynObjectManager().createDynObject(dynclass)
-        return dynobject
+        self.dynobject = DefaultDynObjectManager().createDynObject(dynclass)
+        return self.dynobject
         
     def getToolsLocator(self):
         return ToolsLocator
@@ -78,7 +78,6 @@ class AbstractStatisticProcess():
         
     def createDynForm(self):
         dynclass = self.createParameters()
-        print dynclass
         dynform = self.makeDynForm(dynclass)
         return dynform
         
