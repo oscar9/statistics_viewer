@@ -13,7 +13,7 @@ from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractSt
 import os
 from addons.statistics_viewer.sv import svgraph
 
-from org.apache.commons.math3.ml.clustering import FuzzyKMeansClusterer
+from org.apache.commons.math3.ml.clustering import DBSCANClusterer
 from java.util import ArrayList
 #from org.apache.commons.math3.ml.clustering import DoublePoint
 from org.apache.commons.math3.ml.distance import EarthMoversDistance
@@ -24,7 +24,7 @@ from org.jfree.data.xy import XYDataItem, XYSeries, XYSeriesCollection, XYDatase
 
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Clustering Fuzzy Kmeans"
+    name = u"DBSCAN Clusterer"
     description = "Fuzzy K means"
     idprocess = "fuzzy-kmeans-1"
     allowZoomProcess = False
@@ -32,18 +32,16 @@ class StatProcess(AbstractStatisticProcess):
     def processParameters(self): #o: dynclass
         params = self.createInputParameters("FuzzyKmeansParameters", "FuzzyKmeansParametersProperties", "Description")
         params.addDynFieldString("Layer").setMandatory(True)
-        params.addDynFieldInt("Clusters").setMandatory(True) 
-        params.addDynFieldInt("Fuzziness").setMandatory(True)
-        params.addDynFieldInt("MaxIterations").setMandatory(True)
+        params.addDynFieldDouble("Eps").setMandatory(True) 
+        params.addDynFieldInt("MinPts").setMandatory(True)
         params.addDynFieldString("Field X").setMandatory(True)
         params.addDynFieldString("Field Y").setMandatory(True)
         
     def process(self, params):
         # Get initial parameters
         param_layer = params.get("Layer")
-        param_clusters = params.get("Clusters")
-        param_fuzziness = params.get("Fuzziness")
-        param_maxIterations = params.get("MaxIterations")
+        param_eps = params.get("Eps")
+        param_minPts = params.get("MinPts")
         param_field1 = params.get("Field X")
         param_field2 = params.get("Field Y")
 
@@ -55,14 +53,15 @@ class StatProcess(AbstractStatisticProcess):
         
         # Collect points
         collection = self.getUtils().mlGetXYClusterableCollectionFromLayer(layer, param_field1, param_field2)
-        
+        print "collection"
         # Distance method
-        dd = EarthMoversDistance()
+        ##dd = EarthMoversDistance()
         #dd = EuclideanDistance().getClass
 
         # Algorithm Fuzzykmeansclusterer
-        fkppc = FuzzyKMeansClusterer(param_clusters, param_fuzziness, param_maxIterations, dd)
+        fkppc = DBSCANClusterer(param_eps, param_minPts) #, dd)
         clusters = fkppc.cluster(collection)
+        print "fkppc"
 
         # Output shape with cluster values
         newschema = gvsig.createFeatureType(layer.getSchema())
@@ -95,17 +94,16 @@ class StatProcess(AbstractStatisticProcess):
         
 
 def main(*args):
-    print "* stat11.py: Fuzzy K Means"
+    print "* stat12.py: BDSCAN Clusterer"
 
     proc =  StatProcess()
     dynobject = proc.createParameters()
 
-    dynobject.setDynValue("Layer", "VV")
-    dynobject.setDynValue("Clusters", 5)
-    dynobject.setDynValue("Fuzziness", 2)
-    dynobject.setDynValue("MaxIterations", 1)
-    dynobject.setDynValue("Field X", "BRIGHT_TI4")
-    dynobject.setDynValue("Field Y", "FRP")
+    dynobject.setDynValue("Layer", "V")
+    dynobject.setDynValue("Eps", 2.0)
+    dynobject.setDynValue("MinPts", 3000)
+    dynobject.setDynValue("Field X", "LONGITUDE")
+    dynobject.setDynValue("Field Y", "LATITUDE")
     proc.process(dynobject.getValues())
     print proc.getOutputConsole()
     panel =  proc.getOutputPanel()
