@@ -15,6 +15,7 @@ class gvDoublePoint(Clusterable): #DoublePoint):
         self.f2 = f2
         #location = feature.geometry()
         #DoublePoint.__init__(self, [x,y])
+        
         self.feature = feature
     def getLocation(self):
         return self

@@ -17,14 +17,26 @@ def getUniqueSchemaField(layer, newfield):
         n+=1
     return newfield
     
-def mlGetXYClusterableCollectionFromLayer(newlayer, param_field1, param_field2):
+def mlGetXYClusterableCollectionFromLayer(newlayer, param_field1, param_field2, addFeatureCopy=True):
     """Extract a XY values collection from a gvSIG layer using gvDoublePoint"""
     collection = []
     features = newlayer.features()
     for n,f in enumerate(features):
-        dp = gvDoublePoint(f.getCopy(), param_field1, param_field2)
+        if addFeatureCopy == True:
+            dp = gvDoublePoint(f.getCopy(), param_field1, param_field2)
+        else:
+            dp = gvDoublePoint(None, param_field1, param_field2)
         collection.append(dp)
     return collection
+
+def assignLayerFields2XYCollection(layer, serie, param_x, param_y):
+    collection = svXYSeriesCollection(param_x, param_y)
+    for f in layer.features():
+        collection.addValues(str(serie), f.get(param_x), f.get(param_y))
+    collection.updateSeries()
+    collection.setLayer(layer)
+    return collection
+
     
 def mlGetJfcCollectionFromClusters(newlayer, clusters, param_field1, param_field2):
     """Create a JFreeChart collection from clusters, features related by svCollection with layer"""

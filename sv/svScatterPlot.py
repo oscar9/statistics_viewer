@@ -29,6 +29,8 @@ class gvXYDataItem(XYDataItem):
     def __init__(self,*args):
         pass
         
+from java.util import ArrayList
+
 class svXYSeriesCollection(XYSeriesCollection):
     ### Manejar datos X-Y, dos campos designados al iniciarse la clase
     ## Agragar con addValues(nombreserie, field1, field2)
@@ -46,6 +48,12 @@ class svXYSeriesCollection(XYSeriesCollection):
         #self.layer = layer
         #self.f = layer.features()
         #self.append(serie, self.f, field1, field2)
+        
+    def getField1(self):
+        return self.field1
+        
+    def getField2(self):
+        return self.field2
         
     def setLayer(self, layer):
         self.layer = layer
@@ -93,11 +101,15 @@ def createChart(dataset,field1="", field2=""):
     return chart
     
 def createPanelMouseListener(chart):
-    panel = ChartPanel(chart)
-    panel.setMouseWheelEnabled(True)
+    panel = createPanel(chart)
     panel.addChartMouseListener(MyChartMouseListener(panel))
     return panel
 
+def createPanel(chart):
+    panel = ChartPanel(chart)
+    panel.setMouseWheelEnabled(True)
+    return panel
+    
 #def createPanel(dataset, field1="", field2=""):
 #    chart = createChart(dataset, field1, field2)
 #    panel = ChartPanel(chart)
@@ -134,6 +146,6 @@ def main(*args):
 
     #Remove this lines and add here your code
     layer = gvsig.currentView().getLayer("V")
-    dp = createPanel()#layer, "LATITUDE", "LONGITUDE")
+    #dp = createPanel()#layer, "LATITUDE", "LONGITUDE")
     print dp
     pass

@@ -85,12 +85,8 @@ class StatProcess(AbstractStatisticProcess):
         newlayer.setLegend(gvsig_legend)
 
         self.console = u"** Análisis KMeansPlusPlus **"
-        self.console += "\niterations: " + str(fkppc.getMaxIterations())
-        self.console += "\nclusters: "+ str(fkppc.getK())
-        self.console += "\nFuzzines: " + str(fkppc.getFuzziness())
-        self.console += "\nEpsilon: " + str(fkppc.getEpsilon())
-        for n,cluster in enumerate(clusters):
-            self.console += "\n\tCluster id: " + str(n) + " center: " + str(cluster.getCenter())
+        self.console += "\nEps: " + str(fkppc.getEps())
+        self.console += "\nclusters: "+ str(fkppc.getMinPts())
         
 
 def main(*args):
@@ -100,8 +96,8 @@ def main(*args):
     dynobject = proc.createParameters()
 
     dynobject.setDynValue("Layer", "V")
-    dynobject.setDynValue("Eps", 2.0)
-    dynobject.setDynValue("MinPts", 3000)
+    dynobject.setDynValue("Eps", 1)
+    dynobject.setDynValue("MinPts", 1000)
     dynobject.setDynValue("Field X", "LONGITUDE")
     dynobject.setDynValue("Field Y", "LATITUDE")
     proc.process(dynobject.getValues())
