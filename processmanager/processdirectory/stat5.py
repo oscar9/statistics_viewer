@@ -50,23 +50,17 @@ class StatProcess(AbstractStatisticProcess):
         data = []
         for f1 in listfields:
             f1v = [f.get(f1) for f in flayer]
-            #print f1 + "\t\t",
             d = [f1]
-
             for f2 in listfields:
                 f2v = [f.get(f2) for f in flayer]
                 c = PearsonsCorrelation().correlation(f1v,f2v)
                 d.append(c)
-                #print str(c)+"\t",
-
-            #print ""
             data.append(d)
 
-        print "Data:", data
-        print "columenNames: ", columnNames
-        print "listfields: ", listfields
+        #print "Data:", data
+        #print "columenNames: ", columnNames
+        #print "listfields: ", listfields
         from javax.swing import JTable
-        
         table = JTable(data, columnNames)
         from javax.swing import JScrollPane
         table = JScrollPane(table)

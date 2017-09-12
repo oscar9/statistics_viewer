@@ -27,33 +27,30 @@ class StatProcess(AbstractStatisticProcess):
         cox = []
         coy = []
         sch = layer.getSchema()
-        
         listfields = []
+        columnNames = ["***"]
         # get potential numeric fields
         for field in sch:
             dt = field.getDataTypeName()
             if dt=="Integer" or dt=="Long" or dt=="Double":
                 listfields.append(field.getName())
-        # Show first line table
-        print "\t\t", 
-
-        for f1 in listfields:
-            print f1+"\t",
-        print ""
-
+                columnNames.append(field.getName())
         # Iterate table
+        data = []
         for f1 in listfields:
             f1v = [f.get(f1) for f in flayer]
-            print f1 + "\t\t",
-
+            d = [f1]
             for f2 in listfields:
                 f2v = [f.get(f2) for f in flayer]
                 c = Covariance().covariance(f1v,f2v)
-                print str(c)+"\t",
+                d.append(c)
+            data.append(d)
+        from javax.swing import JTable
+        table = JTable(data, columnNames)
+        from javax.swing import JScrollPane
+        table = JScrollPane(table)
+        self.setOutputPanel(table)
 
-            print ""
-
-                
         return None #self.createdchart
 
 def main(*args):
@@ -61,7 +58,7 @@ def main(*args):
     proc =  StatProcess()
     dynobject = proc.createParameters()
 
-    dynobject.setDynValue("Capa", "parcelas_Valencia")
+    dynobject.setDynValue("Capa", "pob")
 
     values = dynobject.getValues()
     proc.process(values)

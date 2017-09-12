@@ -17,7 +17,7 @@ from org.apache.commons.math3.ml.clustering import MultiKMeansPlusPlusClusterer
 class StatProcess(AbstractStatisticProcess):
 
     name = u"Multiple Correction of Clustering Kmeans Plus Plus"
-    description = "Multiple K means plus plus"
+    description = "Multiple K means plus plus: this process requieres a point layer"
     idprocess = "multiplekmeans-plus-plus-1"
     allowZoomProcess = True
     

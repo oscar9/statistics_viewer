@@ -53,7 +53,7 @@ class svXYSeriesCollection(XYSeriesCollection):
 #class svDefaultXYDataset(Abstract
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Gráfica Scatter Plot"
+    name = u"Grafica Scatter Plot"
     description = u"Implementacion de XYDataset"
     idprocess = "scatter-plot-1"
     allowZoomProcess = False

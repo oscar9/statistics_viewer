@@ -21,7 +21,7 @@ class ChartService(DynField, DynObject):
         
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Prueba de parámetros"
+    name = u"Prueba de parametros"
     description = "Probando distintas clases"
     idprocess = "testing-parameters-1"
     allowZoomProcess = True
