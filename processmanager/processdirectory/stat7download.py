@@ -10,14 +10,14 @@ from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractSt
 import os
 from addons.statistics_viewer.sv import svgraph
 from org.gvsig.tools.dynobject import DynField, DynObject
-import urllib2
+import urllib2
 import os
 
         
 class StatProcess(AbstractStatisticProcess):
 
     name = u"Descarga de extensiones"
-    description = u"Descarga de extensi√≥n"
+    description = u"Descarga de extension"
     idprocess = "testing-parameters-1"
     allowZoomProcess = True
     
@@ -37,7 +37,7 @@ class StatProcess(AbstractStatisticProcess):
         
         plugin = response.read()
         
-        filename = param_®name #"newstat3.py"
+        filename = param_name
 
         fullpath = os.path.join(os.path.dirname(__file__),filename)
 
@@ -46,11 +46,4 @@ class StatProcess(AbstractStatisticProcess):
         f.close()
         
 def main(*args):
-    print "* stat7.py: download"
-    proc =  StatProcess()
-    dynobject = proc.createParameters()
-
-    dynobject.setDynValue("Download", 'https://raw.githubusercontent.com/oscar9/statistics_viewer/master/processmanager/processdirectory/stat1.py')
-    
-    proc.process(dynobject.getValues())
-    print proc.getOutputConsole()
+    print "* stat7.py: download"
