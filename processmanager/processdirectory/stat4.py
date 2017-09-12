@@ -54,7 +54,7 @@ class StatProcess(AbstractStatisticProcess):
         return None #self.createdchart
 
 def main(*args):
-    print "* stat1.py: process"
+    print "* stat4.py: Covarianza"
     proc =  StatProcess()
     dynobject = proc.createParameters()
 

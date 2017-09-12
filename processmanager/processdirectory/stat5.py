@@ -68,7 +68,7 @@ class StatProcess(AbstractStatisticProcess):
         return None #self.createdchart
 
 def main(*args):
-    print "* stat1.py: process"
+    print "* stat5.py: Pearsons Correlation"
     proc =  StatProcess()
     dynobject = proc.createParameters()
 

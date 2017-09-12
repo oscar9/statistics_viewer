@@ -10,6 +10,8 @@ from addons.statistics_viewer.statisticprocess.abstractprocess import AbstractSt
 import os
 from addons.statistics_viewer.sv import svgraph
 from org.gvsig.tools.dynobject import DynField, DynObject
+import urllib2
+import os
 
         
 class StatProcess(AbstractStatisticProcess):
@@ -22,27 +24,29 @@ class StatProcess(AbstractStatisticProcess):
     def processParameters(self): #o: dynclass
         params = self.createInputParameters("DownloadParameters", "DownloadParametersProperties", "Description")
         params.addDynFieldString("Download").setMandatory(True) 
+        params.addDynFieldString("Name").setMandatory(True)
 
     def process(self, params):
         param_download = params.get("Download")
+        param_name = params.get("Name")
 
         self.console = " ** Descarga: \n"+param_download
         
-        import urllib2
+
         response = urllib2.urlopen(param_download)
         
         plugin = response.read()
         
-        filename = "newstat3.py"
-        import os
+        filename = param_¨name #"newstat3.py"
+
         fullpath = os.path.join(os.path.dirname(__file__),filename)
-        print fullpath
+
         f = open(fullpath, 'w')
         f.write(plugin)
         f.close()
         
 def main(*args):
-    print "* stat1.py: process"
+    print "* stat7.py: download"
     proc =  StatProcess()
     dynobject = proc.createParameters()
 

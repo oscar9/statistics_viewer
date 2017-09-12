@@ -75,7 +75,7 @@ class StatProcess(AbstractStatisticProcess):
         
 
 def main(*args):
-    print "* stat1.py: process"
+    print "* stat10.py: Multiple K Means Plus Plus"
     #print "\ndir:", dir()
     #print sys.path
     #import os

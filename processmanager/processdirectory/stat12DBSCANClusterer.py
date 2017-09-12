@@ -25,12 +25,12 @@ from org.jfree.data.xy import XYDataItem, XYSeries, XYSeriesCollection, XYDatase
 class StatProcess(AbstractStatisticProcess):
 
     name = u"DBSCAN Clusterer"
-    description = "Fuzzy K means"
-    idprocess = "fuzzy-kmeans-1"
+    description = "Density algorithm"
+    idprocess = "dbcan-density-1"
     allowZoomProcess = False
     
     def processParameters(self): #o: dynclass
-        params = self.createInputParameters("FuzzyKmeansParameters", "FuzzyKmeansParametersProperties", "Description")
+        params = self.createInputParameters("DBSCANParameters", "DBSCANParametersProperties", "Description")
         params.addDynFieldString("Layer").setMandatory(True)
         params.addDynFieldDouble("Eps").setMandatory(True) 
         params.addDynFieldInt("MinPts").setMandatory(True)
@@ -53,7 +53,7 @@ class StatProcess(AbstractStatisticProcess):
         
         # Collect points
         collection = self.getUtils().mlGetXYClusterableCollectionFromLayer(layer, param_field1, param_field2)
-        print "collection"
+
         # Distance method
         ##dd = EarthMoversDistance()
         #dd = EuclideanDistance().getClass
@@ -61,7 +61,6 @@ class StatProcess(AbstractStatisticProcess):
         # Algorithm Fuzzykmeansclusterer
         fkppc = DBSCANClusterer(param_eps, param_minPts) #, dd)
         clusters = fkppc.cluster(collection)
-        print "fkppc"
 
         # Output shape with cluster values
         newschema = gvsig.createFeatureType(layer.getSchema())
@@ -84,13 +83,13 @@ class StatProcess(AbstractStatisticProcess):
 
         newlayer.setLegend(gvsig_legend)
 
-        self.console = u"** Análisis KMeansPlusPlus **"
+        self.console = u"** Analisis DBSCAN  **"
         self.console += "\nEps: " + str(fkppc.getEps())
         self.console += "\nclusters: "+ str(fkppc.getMinPts())
         
 
 def main(*args):
-    print "* stat12.py: BDSCAN Clusterer"
+    print "* stat12.py: DBSCAN Clusterer"
 
     proc =  StatProcess()
     dynobject = proc.createParameters()

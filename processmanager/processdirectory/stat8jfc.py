@@ -206,7 +206,7 @@ def createDemoPanel(features, field1, field2):
 
 
 def main(*args):
-    print "* stat1.py: process"
+    print "* stat8.py: Scatter Plot"
     proc =  StatProcess()
     dynobject = proc.createParameters()
 
