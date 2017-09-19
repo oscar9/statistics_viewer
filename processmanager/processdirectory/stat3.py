@@ -45,7 +45,7 @@ class StatProcess(AbstractStatisticProcess):
         return None #self.createdchart
 
 def main(*args):
-    print "* stat1.py: process"
+    print "* stat3.py: process"
     proc =  StatProcess()
     dynobject = proc.createParameters()
 

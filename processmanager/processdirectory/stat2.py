@@ -82,7 +82,7 @@ class StatProcess(AbstractStatisticProcess):
         
 
 def main(*args):
-    print "* stat1.py: process"
+    print "* stat2.py: process"
     import os
     
     proc =  StatProcess()
