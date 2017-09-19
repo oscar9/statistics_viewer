@@ -10,6 +10,29 @@ from addons.statistics_viewer.processmanager.processmanager import StatisticsPro
 from java.awt import BorderLayout
 from org.gvsig.fmap.mapcontext.events.listeners import ViewPortListener
 
+from org.gvsig.scripting.app.extension import ScriptingExtension
+from org.gvsig.fmap.mapcontext import MapContextLocator
+from org.gvsig.tools import ToolsLocator
+from org.gvsig.tools.swing.api import ToolsSwingLocator
+from java.io import File
+
+class StatisticsViewerExtension(ScriptingExtension):
+    def __init__(self):
+      pass
+  
+    def canQueryByAction(self):
+      return True
+  
+    def isEnabled(self,action):
+      return True #currentView()!=None
+  
+    def isVisible(self,action):
+      return True #currentView()!=None
+      
+    def execute(self,actionCommand, *args):
+        l = StatisticsViewer()
+        l.showTool("Statistics Viewer")
+        
 class StatisticsViewer(ViewPortListener,FormPanel):
     mapContext = None
     spm = None #Statistics Process Manager
