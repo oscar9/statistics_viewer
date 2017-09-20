@@ -9,8 +9,9 @@ from org.gvsig.app import ApplicationLocator
 
 from org.gvsig.andami import PluginsLocator
 import os
-from addons.statistics_viewer.main import StatisticsViewerExtension 
+
 def selfRegister():
+  from addons.statistics_viewer.main import StatisticsViewerExtension 
   application = ApplicationLocator.getManager()
   icon_show = File(os.path.join(os.path.dirname(__file__),"statistics_viewer_ico.png")).toURI().toURL()
   iconTheme = ToolsSwingLocator.getIconThemeManager().getCurrent()
@@ -35,4 +36,5 @@ def main(*args):
 
     print "***** LOADED STATISTICS VIEWER ******"
     use_jars(os.path.dirname(__file__),"libs", True)
+
     selfRegister()
