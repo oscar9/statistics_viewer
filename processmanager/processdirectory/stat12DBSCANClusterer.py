@@ -83,7 +83,7 @@ class StatProcess(AbstractStatisticProcess):
 
         newlayer.setLegend(gvsig_legend)
 
-        self.console = u"** Analisis DBSCAN  **"
+        self.console = u"** Analysis DBSCAN  **"
         self.console += "\nEps: " + str(fkppc.getEps())
         self.console += "\nclusters: "+ str(fkppc.getMinPts())
         

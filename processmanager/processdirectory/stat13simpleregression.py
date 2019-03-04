@@ -21,7 +21,7 @@ from java.awt import Color
 class StatProcess(AbstractStatisticProcess):
 
     name = u"Simple Regression"
-    description = "Simple Regression Description"
+    description = "Simple Regression between field values"
     idprocess = "simple-regression-1"
     allowZoomProcess = False
     
@@ -68,7 +68,7 @@ class StatProcess(AbstractStatisticProcess):
         panel = createPanelMouseListener(chart) # Create Panel using the functionality of svCollection selection allowed
         #panel = createPanel(chart)
         self.setOutputPanel(panel)
-        self.console = u"** Análisis Simple Regression **"
+        self.console = u"** Analysis Simple Regression **"
         self.console += "y = "+str(intercept)+" + "+str(slope)+" * x"
         
 

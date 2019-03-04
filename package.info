@@ -1,0 +1,21 @@
+#
+#Thu Mar 01 13:27:18 CET 2018
+owner=
+code=statistics_viewer
+java-version=j1_7
+official=true
+type=Script
+version=1.0.0-3
+state=testing
+operating-system=all
+dependencies=
+sources-url=
+web-url=
+architecture=all
+model-version=1.0.1
+categories=Geoprocess
+description=Toolbox for visualization and analysis of data
+owner-url=
+buildNumber=3
+gvSIG-version=2.4.0
+name=Statistics Viewer

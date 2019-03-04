@@ -11,23 +11,23 @@ import os
         
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Correlación entre campos"
-    description = u"Calculo de la correlación entre dos campos de una misma capa"
+    name = u"Correlation between fields"
+    description = u"Correlation calculation between all the fields in a vectorial layer"
     idprocess = "correlation-fields-1"
     allowZoomProcess = False
     
     def processParameters(self): #o: dynclass
         params = self.createInputParameters("ProcessCorrelation", "ProcessPropertiesCorrelation", "aqui va la descripcion")
-        params.addDynFieldString("Capa").setMandatory(True)
-        params.addDynFieldString("Campo 1").setMandatory(True)
-        params.addDynFieldString("Campo 2").setMandatory(True)
+        params.addDynFieldString("Layer").setMandatory(True)
+        params.addDynFieldString("Field 1").setMandatory(True)
+        params.addDynFieldString("Field 2").setMandatory(True)
         #return params
         
     def process(self, params):
 
-        params_layer = params.get("Capa")
-        params_field1 = params.get("Campo 1")
-        params_field2 = params.get("Campo 2")
+        params_layer = params.get("Layer")
+        params_field1 = params.get("Field 1")
+        params_field2 = params.get("Field 2")
 
         layer = gvsig.currentView().getLayer(params_layer)
         cox = []
@@ -40,7 +40,7 @@ class StatProcess(AbstractStatisticProcess):
         from org.apache.commons.math3.stat.correlation import Covariance
         c = Covariance().covariance(cox,coy)
 
-        self.console =  u" ** Correlación entre campos: " + str(c)
+        self.console =  u" ** Correlation between fields: " + str(c)
 
         return None #self.createdchart
 
@@ -49,9 +49,9 @@ def main(*args):
     proc =  StatProcess()
     dynobject = proc.createParameters()
 
-    dynobject.setDynValue("Capa", "parcelas_Valencia")
-    dynobject.setDynValue("Campo 1", "COORX")
-    dynobject.setDynValue("Campo 2", "COORY")
+    dynobject.setDynValue("Layer", "parcelas_Valencia")
+    dynobject.setDynValue("Field 1", "COORX")
+    dynobject.setDynValue("Field 2", "COORY")
     
     #fields = dynobject.getDynClass().getDynFields()
     #for d in fields:

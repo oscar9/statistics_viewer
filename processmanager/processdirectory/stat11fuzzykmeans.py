@@ -85,7 +85,7 @@ class StatProcess(AbstractStatisticProcess):
 
         newlayer.setLegend(gvsig_legend)
 
-        self.console = u"** Análisis KMeansPlusPlus **"
+        self.console = u"** Analysis KMeansPlusPlus **"
         self.console += "\niterations: " + str(fkppc.getMaxIterations())
         self.console += "\nclusters: "+ str(fkppc.getK())
         self.console += "\nFuzzines: " + str(fkppc.getFuzziness())

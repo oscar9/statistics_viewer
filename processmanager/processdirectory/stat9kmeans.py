@@ -27,7 +27,7 @@ class gvDoublePoint(DoublePoint):
 
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Clustering Kmeans Plus Plus"
+    name = u"Kmeans Plus Plus clustering"
     description = "K means plus plus"
     idprocess = "kmeans-plus-plus-1"
     allowZoomProcess = True

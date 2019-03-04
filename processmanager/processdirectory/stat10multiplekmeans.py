@@ -71,7 +71,7 @@ class StatProcess(AbstractStatisticProcess):
         newlayer.commit()
         gvsig.currentView().addLayer(newlayer)
 
-        self.console = u"** Análisis Multiple KMeansPlusPlus, iterations: " + str(param_iterations)
+        self.console = u"** A. Multiple KMeansPlusPlus, iterations: " + str(param_iterations)
         
 
 def main(*args):

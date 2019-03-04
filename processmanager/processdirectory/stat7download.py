@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import gvsig
+from gvsig import getResource
 
 import addons.statistics_viewer.statisticprocess
 reload(addons.statistics_viewer.statisticprocess)
@@ -16,8 +17,8 @@ import os
         
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Descarga de extensiones"
-    description = u"Descarga de extension"
+    name = u"Download new operations"
+    description = u"Download new operation from a link in github. It will be download inside the process directory and loaded for the application"
     idprocess = "testing-parameters-1"
     allowZoomProcess = True
     
@@ -37,9 +38,9 @@ class StatProcess(AbstractStatisticProcess):
         
         plugin = response.read()
         
-        filename = param_name
-
-        fullpath = os.path.join(os.path.dirname(__file__),filename)
+        filename = param_name 
+        
+        fullpath = getResource(__file__,filename)
 
         f = open(fullpath, 'w')
         f.write(plugin)

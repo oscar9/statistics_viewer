@@ -10,10 +10,19 @@ from org.gvsig.app import ApplicationLocator
 from org.gvsig.andami import PluginsLocator
 import os
 
+from org.gvsig.tools import ToolsLocator
+from java.io import File
+
+from gvsig import getResource
+
 def selfRegister():
+  # i18
+  i18nManager = ToolsLocator.getI18nManager()
+  i18nManager.addResourceFamily("text",File(gvsig.getResource(__file__,"i18n")))
+  
   from addons.statistics_viewer.main import StatisticsViewerExtension 
   application = ApplicationLocator.getManager()
-  icon_show = File(os.path.join(os.path.dirname(__file__),"statistics_viewer_ico.png")).toURI().toURL()
+  icon_show = File(getResource(__file__,"statistics_viewer_ico.png")).toURI().toURL()
   iconTheme = ToolsSwingLocator.getIconThemeManager().getCurrent()
   iconTheme.registerDefault("scripting.sv", "action", "tools-sv-show", None, icon_show)
   
@@ -35,6 +44,7 @@ def selfRegister():
 def main(*args):
 
     print "***** LOADED STATISTICS VIEWER ******"
-    use_jars(os.path.dirname(__file__),"libs", True)
-
+    ScriptingExtension.add_classpath(getResource(__file__,"libs/commons-math3-3.6.1-tools.jar"))
+    ScriptingExtension.add_classpath(getResource(__file__,"libs/commons-math3-3.6.1.jar"))
+    
     selfRegister()

@@ -9,8 +9,8 @@ from org.apache.commons.math3.stat.correlation import Covariance
 
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Covarianza entre todos los campos"
-    description = u"Calculo de la correlación entre todos los campos de una misma capa"
+    name = u"Covariance matrix"
+    description = u"Covariance matrix between all the fields in a vectorial layer"
     idprocess = "correlation-fields-all-1"
     allowZoomProcess = False
     

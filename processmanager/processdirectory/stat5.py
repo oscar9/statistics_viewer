@@ -8,8 +8,8 @@ import os
 from org.apache.commons.math3.stat.correlation import PearsonsCorrelation
 class StatProcess(AbstractStatisticProcess):
 
-    name = u"Correlacion de Pearsons"
-    description = u"Calculo de la correlación entre todos los campos de una misma capa"
+    name = u"Pearson's correlation"
+    description = u"Person's correlation between all the field in a vector layer"
     idprocess = "correlation-fields-all-1"
     allowZoomProcess = False
     

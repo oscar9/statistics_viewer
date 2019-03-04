@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 import gvsig
+from gvsig import getResource
+
 import addons.statistics_viewer.statisticprocess
 reload(addons.statistics_viewer.statisticprocess)
 import addons.statistics_viewer.sv
@@ -14,8 +16,8 @@ from org.jfree.data.category import CategoryDataset, DefaultCategoryDataset
 
 class StatProcess(AbstractStatisticProcess):
 
-    name = "Generador de perfil"
-    description = "Perfil dinámico en funcion de la Vista con la capa de salida del geoproceso Perfil"
+    name = "Profile generator"
+    description = "Dynamic profile of a profile. It works with a points layer from the output of the process Profile."
     idprocess = "create-dynamic-profile"
     allowZoomProcess = True
     
@@ -28,7 +30,7 @@ class StatProcess(AbstractStatisticProcess):
         pass
         
     def processParameters(self): #o: dynclass
-        #dynxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+        #dynxml = getResource(__file__, "SHPParameters.xml")
         #dynclass = self.createDynClass(dynxml)
         
         #manager = self.getToolsLocator().getDynObjectManager()

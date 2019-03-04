@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import gvsig
+from gvsig import getResource
 from gvsig.libs.formpanel import FormPanel
 import os
 import addons.statistics_viewer.processmanager
@@ -16,7 +17,7 @@ from org.gvsig.tools import ToolsLocator
 from org.gvsig.tools.swing.api import ToolsSwingLocator
 from java.io import File
 
-class StatisticsViewerExtension(ScriptingExtension):
+class StatisticsViewerExtension(ScriptingExtension):
     def __init__(self):
       pass
   
@@ -40,8 +41,8 @@ class StatisticsViewer(ViewPortListener,FormPanel):
     savedynform = True
     savedynformparams = {}
     def __init__(self):
-        FormPanel.__init__(self, os.path.join(os.path.dirname(__file__), "statistics_viewer.xml"))
-        icon = self.load_icon(os.path.join(os.path.dirname(__file__), "info.ico"))
+        FormPanel.__init__(self, getResource(__file__, "statistics_viewer.xml"))
+        icon = self.load_icon(getResource(__file__, "info.ico"))
         self.btnInfo.setIcon(icon)
         self.setPreferredSize(1000,500)
         self.spm = StatisticsProcessManager()

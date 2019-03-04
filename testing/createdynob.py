@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 import gvsig
-import gvsig
+from gvsig import getResource
 from org.gvsig.tools.dynobject.impl import DefaultDynObjectManager
 from org.gvsig.tools.dynform.impl import DefaultDynFormManager
 import os
@@ -10,7 +10,7 @@ from java.io import FileInputStream
 def main(*args):
 
     #Remove this lines and add here your code
-    dynobjectxml = os.path.join(os.path.dirname(__file__), "SHPParameters.xml")
+    dynobjectxml = getResource(__file__, "SHPParameters.xml")
     resource = FileInputStream(dynobjectxml)
     loader = None
     dynclass = DefaultDynObjectManager().importDynClassDefinitions(resource, loader)["SHPStoreParameters"]#InputStream resource, ClassLoader loader)
