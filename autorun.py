@@ -43,7 +43,6 @@ def selfRegister():
   
 def main(*args):
 
-    print "***** LOADED STATISTICS VIEWER ******"
     ScriptingExtension.add_classpath(getResource(__file__,"libs/commons-math3-3.6.1-tools.jar"))
     ScriptingExtension.add_classpath(getResource(__file__,"libs/commons-math3-3.6.1.jar"))
     
